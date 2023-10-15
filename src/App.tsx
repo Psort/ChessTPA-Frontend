@@ -1,11 +1,12 @@
 import React from "react";
-import './app.css';
+import { AppContainer } from "./App.styles";
+import {AppRouter} from "./router/App.router";
 
 function App() {
   return (
-        <>
-            Siema
-        </>
+        <AppContainer>
+            <AppRouter/>
+        </AppContainer>
   );
 }
 
