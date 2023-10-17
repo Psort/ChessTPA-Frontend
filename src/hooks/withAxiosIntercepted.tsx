@@ -19,29 +19,29 @@ export function withAxiosIntercepted<T extends JSX.IntrinsicAttributes>(
         };
       });
 
-      // authorizedApi.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-      //   if (config?.headers) {
-      //     config.headers["Authorization"] = `Bearer ${localStorage.getItem(
-      //       ACCESS_TOKEN
-      //     )}`;
-      //   }
-      //
-      //   return {
-      //     ...config,
-      //     baseURL: process.env.REACT_APP_API_URL,
-      //   };
-      // });
+      authorizedApi.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+        if (config?.headers) {
+          config.headers["Authorization"] = `Bearer ${localStorage.getItem(
+            ACCESS_TOKEN
+          )}`;
+        }
 
-      // authorizedApi.interceptors.response.use(
-      //   (response) => {
-      //     return response;
-      //   },
-      //   (error) => {
-      //     if (error.response.status === 401) {
-      //     }
-      //     return Promise.reject(error);
-      //   }
-      // );
+        return {
+          ...config,
+          baseURL: process.env.REACT_APP_API_URL,
+        };
+      });
+
+      authorizedApi.interceptors.response.use(
+        (response) => {
+          return response;
+        },
+        (error) => {
+          if (error.response.status === 401) {
+          }
+          return Promise.reject(error);
+        }
+      );
 
       setIsInitialized(true);
     }, []);
