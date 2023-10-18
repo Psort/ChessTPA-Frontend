@@ -7,9 +7,9 @@ export const AppRouter = ()=>{
     return(
         <Routes>
             <Route element={<SetContainer/>}>
-            <Route path="/" element={<HomePage/>}></Route>
-            <Route path="/login" element={<LoginPage/>}></Route>
-            <Route path="/signup" element={<SignupPage/>}></Route>
+                <Route path="/" element={<HomePage/>}></Route>
+                <Route path="/login" element={<LoginPage/>}></Route>
+                <Route path="/signup" element={<SignupPage/>}></Route>
             </Route>
         </Routes>
     )
