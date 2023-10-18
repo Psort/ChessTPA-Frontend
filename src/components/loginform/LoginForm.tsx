@@ -9,6 +9,7 @@ import {
     WelcomeLines
 } from "./LoginForm.styles";
 import {AuthApi} from "../../api/AuthApi";
+import {ACCESS_TOKEN} from "../../constants/constants";
 
 
 export const LoginForm = () =>{
@@ -20,6 +21,7 @@ export const LoginForm = () =>{
                 email: email,
                 password: password,
             });
+            localStorage.setItem("ACCESS_TOKEN",user.data.access_token)
         } catch (error: any) {
             let errorMessage;
             console.log(errorMessage)
