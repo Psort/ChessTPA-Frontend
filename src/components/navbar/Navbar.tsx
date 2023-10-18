@@ -1,15 +1,17 @@
-import {Section} from "../../App.styles";
+
 import React from "react";
 import {LoginButton, Logo, NavContainer, RegisterButton} from "./Navbar.styles";
+import {useNavigate} from "react-router-dom";
 
 export const Navbar = () =>{
+    const navigate = useNavigate();
     return(
         <NavContainer>
             <Logo/>
             <RegisterButton>
                 Sign Up
             </RegisterButton>
-            <LoginButton>
+            <LoginButton onClick={()=>navigate("/login")}>
                 Log in
             </LoginButton>
 
