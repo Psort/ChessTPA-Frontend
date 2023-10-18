@@ -8,7 +8,7 @@ export const Navbar = () =>{
     return(
         <NavContainer>
             <Logo/>
-            <RegisterButton>
+            <RegisterButton onClick={()=>navigate("/signup")}>
                 Sign Up
             </RegisterButton>
             <LoginButton onClick={()=>navigate("/login")}>
