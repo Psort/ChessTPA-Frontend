@@ -2,9 +2,13 @@ import styled from 'styled-components';
 
 export const LoginContainer = styled.div`
 display: flex;
-  width: 100%;
+  width: 90%;
   height: 100%;
-`
+  position: absolute;
+  background: transparent;
+  top: 0;
+  left: 0;
+ `
 export const FormWrapper = styled.div`
   margin: auto;
   display: flex;
@@ -25,8 +29,6 @@ export const FormWrapper = styled.div`
     width: 90%;
   }
 `;
-
-
 
 export const WelcomeLines = styled.div`
   text-align: center;
@@ -102,6 +104,19 @@ export const ForgotPassword = styled.a`
     }
   }
 `;
-
+export const BackgroundWrapper = styled.div`
+  opacity: 0.3;
+  background-image: url('/chessbackground.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  height: 100vh;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+`;
 
 
