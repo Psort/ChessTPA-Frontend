@@ -9,8 +9,10 @@ import {
     WelcomeLine2,
     WelcomeLines
 } from "../loginform/LoginForm.styles";
+import {useNavigate} from "react-router-dom";
 
-export const SignupForm = () =>{
+export const SignupForm = () => {
+    const navigate = useNavigate();
     const [username,setUsername] = useState("");
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
@@ -25,6 +27,8 @@ export const SignupForm = () =>{
             let errorMessage;
             console.log(errorMessage)
         }
+
+        navigate("/login")
     }, [username,email,password]);
     return(
         <LoginContainer>
