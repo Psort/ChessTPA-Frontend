@@ -12,12 +12,12 @@ import {AuthApi} from "../../api/AuthApi";
 import {ACCESS_TOKEN} from "../../constants/constants";
 
 export const LoginForm = () =>{
-    const [email,setEmail] = useState("");
+    const [username,setUsername] = useState("");
     const [password,setPassword] = useState("");
     const onLoginClicked = useCallback(async () => {
         try {
             const user = await AuthApi.login({
-                email: email,
+                email: username,
                 password: password,
             });
             localStorage.setItem("ACCESS_TOKEN",user.data.access_token)
@@ -25,7 +25,7 @@ export const LoginForm = () =>{
             let errorMessage;
             console.log(errorMessage)
         }
-    }, [email,password]);
+    }, [username,password]);
 
     return(
         <LoginContainer>
@@ -35,7 +35,7 @@ export const LoginForm = () =>{
                         <WelcomeLine2>Wanna Play?</WelcomeLine2>
                     </WelcomeLines>
                     <FormInput >
-                        <input onChange={(event) => setEmail(event.target.value)} placeholder="Email Address" type="text" />
+                        <input onChange={(event) => setUsername(event.target.value)} placeholder="Username" type="text" />
                     </FormInput>
                     <FormInput>
                         <input onChange={(event) => setPassword(event.target.value)} placeholder="Password" type="password" />

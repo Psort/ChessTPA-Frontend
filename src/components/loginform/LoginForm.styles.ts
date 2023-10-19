@@ -8,6 +8,11 @@ display: flex;
   background: transparent;
   top: 0;
   left: 0;
+ @media(max-width:960px){
+  width: 100%;
+  height: 90%;
+  margin-top: 10%;
+ }
  `
 export const FormWrapper = styled.div`
   margin: auto;
@@ -15,18 +20,15 @@ export const FormWrapper = styled.div`
   flex-direction: column;
   gap: 2rem;
   place-items: center;
-  width: 25%;
-  height: 70%;
+  aspect-ratio: 1/1.4;
+  height: fit-content;
   padding: 25px;
   background-color: var(--color-secondary);
   box-shadow: 0px 15px 60px var(--color-primary);
   outline: 1px solid var(--color-primary);
   border-radius: 10px;
   @media(max-width: 960px){
-    width: 30%;
-  }
-  @media(max-width:480px){
-    width: 90%;
+    width: min(90%,30rem);
   }
 `;
 
@@ -52,7 +54,7 @@ export const FormInput = styled.div`
   border: 1px solid var(--color-white);
   line-height: 1;
   border-radius: 8px;
-
+ width: 80%;
   input {
     width: 100%;
     background: none;
@@ -105,18 +107,21 @@ export const ForgotPassword = styled.a`
   }
 `;
 export const BackgroundWrapper = styled.div`
+  height: 100vh;
   opacity: 0.3;
   background-image: url('/chessbackground.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   background-attachment: fixed;
-  height: 100vh;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+ @media(max-width: 960px){
+  height: 90vh;
+ }
 `;
 
 
