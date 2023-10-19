@@ -7,8 +7,12 @@ export const BoardContainer = styled.div`
  grid-template-rows: repeat(8, 1fr);
   width: fit-content;
   aspect-ratio: 1;
+ position: absolute;
+ top: 50%;
+ left: 45%;
+ transform: translate(-50%, -50%);
  `
-export const Element = styled.div<{
+export const ChessSquare = styled.div<{
  isWhite:boolean,
  x:number,
  y:number,

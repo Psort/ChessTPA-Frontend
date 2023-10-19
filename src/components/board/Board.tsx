@@ -1,15 +1,22 @@
-import {BoardContainer, Element} from "./Board.styles";
+import {BoardContainer, ChessSquare} from "./Board.styles";
+import React from "react";
 
+const spots = () => {
+    const spots: React.ReactElement[] = [];
+    for (let i = 1; i <=8; i++) {
+        for (let j = 1; j <=8; j++) {
+            const isWhite = (i + j) % 2 === 0;
+
+            spots.push(<ChessSquare x={i} y={j} isWhite={isWhite} key={`${i}-${j}`} />);
+        }
+    }
+
+    return spots;
+};
 export const Board = () =>{
     return(
         <BoardContainer>
-            <Element isWhite={true} x={1} y={1} />
-            <Element isWhite={false} x={1} y={1} />
-            <Element isWhite={true} x={1} y={2} />
-            <Element isWhite={false} x={1} y={3} />
-            <Element isWhite={true} x={1} y={4} />
-            <Element isWhite={false} x={1} y={5} />
-            <Element isWhite={true} x={1} y={6} />
+            {spots()}
         </BoardContainer>
     )
 }
