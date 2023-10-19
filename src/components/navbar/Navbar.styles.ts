@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const NavContainer = styled.div`
     width: 10vw;
+  min-width: fit-content;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -17,10 +18,12 @@ export const NavContainer = styled.div`
   }
 `
 export const Logo = styled.img`
-  
   width: 5rem;
   height: 5rem;
   background: var(--color-primary);
+  @media(max-width: 960px){
+    height: 100%;
+  }
 `
 export const RegisterButton = styled.button`
   display: block;
