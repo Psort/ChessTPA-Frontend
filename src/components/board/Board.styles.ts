@@ -12,14 +12,10 @@ export const BoardContainer = styled.div`
  left: 45%;
  transform: translate(-50%, -50%);
  `
-export const ChessSquare = styled.div<{
- isWhite:boolean,
- x:number,
- y:number,
-}>`
- background: ${props => (props.isWhite ? "#FFFFFF" : 'black')};
+export const ChessSquare = styled.div<{ x: number; y: number; color: string }>`
  aspect-ratio: 1;
  width: 5rem;
- grid-column: ${props => props.x};
- grid-row: ${props => props.y};
-`
+ grid-column: ${(props) => props.x};
+ grid-row: ${(props) => props.y};
+ background:${(props) => props.color};
+`;
