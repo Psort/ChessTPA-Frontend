@@ -5,7 +5,6 @@ import {Board} from "../../components/board/Board";
 export const GamePage = () =>{
     return(
         <Section>
-            GamePAGE
             <Board/>
         </Section>
     )

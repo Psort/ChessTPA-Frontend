@@ -1,7 +1,7 @@
 import { PiecesTypes } from "./PieceType";
 import {PieceModel} from "./PieceModel"; // Import PiecesTypes from the correct file
 
-export const pieces: PieceModel[] = [
+export const deafoultPiecesSetUp: PieceModel[] = [
     //Black Piece
     {type: PiecesTypes.ROOK, color:"black", x: 1, y: 1},
     {type: PiecesTypes.KNIGHT, color:"black", x: 1, y: 2},
