@@ -14,8 +14,8 @@ export const ChessSquare = (props: ChessSquareProps) => {
     const context = useContext(GameContext)
     const [ { isOver, canDrop },drop] = useDrop({
         accept: PiecesTypes.KNIGHT,
-        drop: () => console.log("drop"),
-        canDrop: () => true,
+        drop: () => context.move(props.x,props.y),
+        canDrop: () => context.canMove(props.x,props.y),
         collect: monitor => ({
             isOver: monitor.isOver,
             canDrop: monitor.canDrop
