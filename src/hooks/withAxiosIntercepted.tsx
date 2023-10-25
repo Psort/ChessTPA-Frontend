@@ -37,8 +37,6 @@ export function withAxiosIntercepted<T extends JSX.IntrinsicAttributes>(
           return response;
         },
         (error) => {
-          if (error.response.status === 401) {
-          }
           return Promise.reject(error);
         }
       );

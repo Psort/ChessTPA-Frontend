@@ -1,10 +1,10 @@
 export const PiecesTypes = {
-    PAWN: 'PAWN' as const,
-    KNIGHT: 'KNIGHT' as const,
-    BISHOP: 'BISHOP' as const,
-    ROOK: 'ROOK' as const,
-    KING: 'KING' as const,
-    QUEEN: 'QUEEN' as const,
+    PAWN: 'P' as const,
+    KNIGHT: 'N' as const,
+    BISHOP: 'B' as const,
+    ROOK: 'R' as const,
+    KING: 'K' as const,
+    QUEEN: 'Q' as const,
 };
 
 // Type definition
