@@ -17,10 +17,11 @@ export const LoginForm = () =>{
     const onLoginClicked = useCallback(async () => {
         try {
             const user = await AuthApi.login({
-                email: username,
-                password: password,
+                username: "admin@gmail.com",
+                password: "admin",
             });
-            localStorage.setItem("ACCESS_TOKEN",user.data.access_token)
+            localStorage.setItem(ACCESS_TOKEN,user.data.access_token)
+            console.log( localStorage.getItem(ACCESS_TOKEN))
         } catch (error: any) {
             let errorMessage;
             console.log(errorMessage)
