@@ -1,7 +1,6 @@
-import {BoardContainer, StyledChessSquare} from "./Board.styles";
+import {BoardContainer} from "./Board.styles";
 import React, {useContext, useEffect} from "react";
 import {Piece} from "../piece/Piece";
-import {deafoultPiecesSetUp} from "../../model/pieces/DeafoultPiecesSetUp";
 import {ChessSquare} from "./ChessSquare";
 import {GameContext} from "../../context/GameContext";
 

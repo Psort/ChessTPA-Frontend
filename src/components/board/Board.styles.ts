@@ -11,10 +11,10 @@ export const BoardContainer = styled.div`
  left: 45%;
  transform: translate(-50%, -50%);
  `
-export const StyledChessSquare = styled.div<{ x: number; y: number; color: string }>`
+export const StyledChessSquare = styled.div<{ x: number; y: number; color: string ;isPossibleMove:boolean}>`
  aspect-ratio: 1;
  width: 3rem;
  grid-column: ${(props) => props.y};
  grid-row: ${(props) => props.x};
- background:${(props) => props.color};
+ background:${(props) => props.isPossibleMove ? "red" :props.color};
 `;
