@@ -13,7 +13,7 @@ import {useNavigate} from "react-router-dom";
 
 export const SignupForm = () => {
     const navigate = useNavigate();
-    const [username,setUsername] = useState("");
+    const [username ,setUsername] = useState("");
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
     const submitSignup = useCallback(async () => {
