@@ -1,16 +1,22 @@
 import React from "react";
 import { AppContainer } from "./App.styles";
+import 'react-toastify/dist/ReactToastify.css';
 import {AppRouter} from "./router/App.router";
 import {withAxiosIntercepted} from "./hooks/withAxiosIntercepted";
 import {GameContextProvider} from "./context/GameContext";
+import {UserContextProvider} from "./context/UserContext";
+import {ToastContainer} from "react-toastify";
 
 function App() {
   return (
-      <GameContextProvider>
         <AppContainer>
-            <AppRouter/>
+            <UserContextProvider>
+                <GameContextProvider>
+                    <AppRouter/>
+                    <ToastContainer />
+                </GameContextProvider>
+            </UserContextProvider>
         </AppContainer>
-      </GameContextProvider>
   );
 }
 
