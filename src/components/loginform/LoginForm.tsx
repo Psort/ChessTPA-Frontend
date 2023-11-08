@@ -9,7 +9,8 @@ import {
     WelcomeLines
 } from "./LoginForm.styles";
 import {AuthApi} from "../../api/AuthApi";
-import {ACCESS_TOKEN} from "../../constants/constants";
+import {ACCESS_TOKEN, REFRESH_TOKEN} from "../../constants/constants";
+import {toast} from "react-toastify";
 
 export const LoginForm = () =>{
     const [username,setUsername] = useState("");
@@ -17,14 +18,14 @@ export const LoginForm = () =>{
     const onLoginClicked = useCallback(async () => {
         try {
             const user = await AuthApi.login({
-                username: "admin@gmail.com",
-                password: "admin",
+                username: username,
+                password: password,
             });
             localStorage.setItem(ACCESS_TOKEN,user.data.access_token)
-            console.log( localStorage.getItem(ACCESS_TOKEN))
+            localStorage.setItem(REFRESH_TOKEN,user.data.refresh_token)
+            toast.info("done")
         } catch (error: any) {
-            let errorMessage;
-            console.log(errorMessage)
+            console.log(error)
         }
     }, [username,password]);
 
