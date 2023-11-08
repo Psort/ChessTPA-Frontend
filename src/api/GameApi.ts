@@ -1,11 +1,12 @@
-import {GameRequest} from "../model/api/game/GameRequest";
-import {GameResponse} from "../model/api/game/GameResponse";
+import {MovesRequest} from "../model/api/game/MovesRequest";
+import {MovesResponse} from "../model/api/game/MovesResponse";
 import {authorizedApi} from "../hooks/withAxiosIntercepted";
+import {Coordinate} from "../model/api/game/Coordinate";
 
 
 export class GameApi {
-  static getPossibleMoves = async (request: GameRequest) =>
-    await authorizedApi.post<GameResponse[]>("/engine", request);
   // static getPossibleMoves = async (request: GameRequest) =>
-  //     await authorizedApi.post<string>("/engine");
+  //   await authorizedApi.get<GameResponse[]>("/engine",{params:request} );
+  static getPossibleMoves = async (request: MovesRequest) =>
+      await authorizedApi.post<Coordinate[]>("/engine/move",request);
 }
