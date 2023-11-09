@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useContext, useState} from "react";
 import {
     ForgotPassword,
     FormInput,
@@ -11,23 +11,26 @@ import {
 import {AuthApi} from "../../api/AuthApi";
 import {ACCESS_TOKEN, REFRESH_TOKEN} from "../../constants/constants";
 import {toast} from "react-toastify";
+import {UserContext} from "../../context/UserContext";
 
 export const LoginForm = () =>{
-    const [username,setUsername] = useState("");
-    const [password,setPassword] = useState("");
+    const userContext = useContext(UserContext);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const onLoginClicked = useCallback(async () => {
         try {
             const user = await AuthApi.login({
-                username: username,
+                email: email,
                 password: password,
             });
             localStorage.setItem(ACCESS_TOKEN,user.data.access_token)
             localStorage.setItem(REFRESH_TOKEN,user.data.refresh_token)
+            userContext.provideUsername(email)
             toast.info("done")
         } catch (error: any) {
             console.log(error)
         }
-    }, [username,password]);
+    }, [email,password]);
 
     return(
         <LoginContainer>
@@ -37,7 +40,7 @@ export const LoginForm = () =>{
                         <WelcomeLine2>Wanna Play?</WelcomeLine2>
                     </WelcomeLines>
                     <FormInput >
-                        <input onChange={(event) => setUsername(event.target.value)} placeholder="Username" type="text" />
+                        <input onChange={(event) => setEmail(event.target.value)} placeholder="Email" type="text" />
                     </FormInput>
                     <FormInput>
                         <input onChange={(event) => setPassword(event.target.value)} placeholder="Password" type="password" />
