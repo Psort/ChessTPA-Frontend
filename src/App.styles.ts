@@ -11,8 +11,16 @@ export const AppContainer = styled.div`
 export const Section = styled.div`
     width: 90vw;
     height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   @media(max-width: 960px){
     width: 100vw;
     height: 90vh;
   }
+`
+export const Button = styled.button`
+    width: 10rem;
+    height: 10rem;
+
 `

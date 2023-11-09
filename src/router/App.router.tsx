@@ -4,12 +4,13 @@ import {LoginPage} from "../page/login/LoginPage";
 import {SetContainer} from "../components/SetContainer";
 import {SignupPage} from "../page/signup/SignupPage";
 import {GamePage} from "../page/game/GamePage";
+import {GameProtectedRoute} from "../components/protection/GameProtectedRoute";
 export const AppRouter = ()=>{
     return(
         <Routes>
             <Route element={<SetContainer/>}>
-                <Route path="/" element={<HomePage/>}></Route>
-                <Route path="/game" element={<GamePage/>}></Route>
+                <Route path="/" element={<GameProtectedRoute><HomePage/></GameProtectedRoute>}></Route>
+                <Route path="/game/online" element={<GamePage/>}></Route>
                 <Route path="/login" element={<LoginPage/>}></Route>
                 <Route path="/signup" element={<SignupPage/>}></Route>
             </Route>

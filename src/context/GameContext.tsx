@@ -6,6 +6,8 @@ import {Coordinate} from "../model/api/game/Coordinate";
 
 
 const defaultSetting: GameContextType = {
+    id:null,
+    idModifier:(id:string|null) => {},
     promoteX:0,
     colorTurn:"white",
     colorTurnModifier: (color: string) => {},
@@ -20,6 +22,7 @@ const defaultSetting: GameContextType = {
 export const GameContext = createContext<GameContextType>(defaultSetting)
 
 export const GameContextProvider = ({ children }: React.PropsWithChildren) => {
+    const [id,setId] = useState<string|null>(null)
     const [promoteX,setPromoteX] = useState<number>(0)
     const [colorTurn,setColorTurn] = useState("white")
     const [pieces ,setPieces] = useState<PieceModel[]>(deafoultPiecesSetUp)
@@ -43,7 +46,11 @@ export const GameContextProvider = ({ children }: React.PropsWithChildren) => {
         setColorTurn(color)
     }
 
+    function idModifier(id:string|null) {
+        setId(id)
+    }
+
     return (
-        <GameContext.Provider value={{promoteX,colorTurn,colorTurnModifier,possibleMoves,possibleMovesModifier,pieces,piecesModifier,currentPiece, currentPieceModifier}}> {children} </GameContext.Provider>
+        <GameContext.Provider value={{id,idModifier,promoteX,colorTurn,colorTurnModifier,possibleMoves,possibleMovesModifier,pieces,piecesModifier,currentPiece, currentPieceModifier}}> {children} </GameContext.Provider>
     )
 }

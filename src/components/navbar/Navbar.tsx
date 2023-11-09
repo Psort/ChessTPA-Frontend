@@ -8,7 +8,7 @@ export const Navbar = () =>{
     return(
         <NavContainer>
             <Logo/>
-            <RegisterButton onClick={()=>navigate("/game")}>
+            <RegisterButton onClick={()=>navigate("/")}>
                 Play
             </RegisterButton>
             <RegisterButton onClick={()=>navigate("/signup")}>
