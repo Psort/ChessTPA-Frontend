@@ -12,7 +12,7 @@ export const HomePage = () => {
         try {
             setLoading(true)
             const response = await QueueApi.join("username")
-            gameContext.idModifier(response.data)
+            gameContext.gameModifier({id:response.data,history:[],players:[]})
             navigate("/game/online")
             setLoading(false)
         } catch (error: any) {

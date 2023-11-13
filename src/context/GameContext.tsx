@@ -3,11 +3,12 @@ import {GameContextType} from "../model/context/GameContextType";
 import {PieceModel} from "../model/pieces/PieceModel";
 import {deafoultPiecesSetUp} from "../model/pieces/DeafoultPiecesSetUp";
 import {Coordinate} from "../model/api/game/Coordinate";
+import {Game} from "../model/game/Game";
 
 
 const defaultSetting: GameContextType = {
-    id:null,
-    idModifier:(id:string|null) => {},
+    game:null,
+    gameModifier:(game:Game|null) => {},
     promoteX:0,
     colorTurn:"white",
     colorTurnModifier: (color: string) => {},
@@ -22,7 +23,7 @@ const defaultSetting: GameContextType = {
 export const GameContext = createContext<GameContextType>(defaultSetting)
 
 export const GameContextProvider = ({ children }: React.PropsWithChildren) => {
-    const [id,setId] = useState<string|null>(null)
+    const [game,setGame] = useState<Game|null>(null)
     const [promoteX,setPromoteX] = useState<number>(0)
     const [colorTurn,setColorTurn] = useState("white")
     const [pieces ,setPieces] = useState<PieceModel[]>(deafoultPiecesSetUp)
@@ -46,11 +47,11 @@ export const GameContextProvider = ({ children }: React.PropsWithChildren) => {
         setColorTurn(color)
     }
 
-    function idModifier(id:string|null) {
-        setId(id)
+    function gameModifier(game:Game|null) {
+        setGame(game)
     }
 
     return (
-        <GameContext.Provider value={{id,idModifier,promoteX,colorTurn,colorTurnModifier,possibleMoves,possibleMovesModifier,pieces,piecesModifier,currentPiece, currentPieceModifier}}> {children} </GameContext.Provider>
+        <GameContext.Provider value={{game,gameModifier,promoteX,colorTurn,colorTurnModifier,possibleMoves,possibleMovesModifier,pieces,piecesModifier,currentPiece, currentPieceModifier}}> {children} </GameContext.Provider>
     )
 }
