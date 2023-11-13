@@ -10,12 +10,13 @@ export const GamePage = () =>{
 
     const game = useCallback(async () => {
         try {
-            const response = await GameApi.getGame(gameContext.id)
+            const response = await GameApi.getGame(gameContext.game?.id)
+            console.log(response.data)
 
         } catch (error: any) {
             console.log(error)
         }
-    }, [gameContext.id]);
+    }, [gameContext.game?.id]);
     useEffect(() => {
         game()
     }, []);

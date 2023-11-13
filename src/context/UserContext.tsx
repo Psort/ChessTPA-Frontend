@@ -1,8 +1,9 @@
 import React, {createContext, useCallback, useContext, useEffect, useState} from "react";
 
 import {UserContextType} from "../model/context/UserContextType";
-import {User} from "../model/context/User";
+
 import {UserApi} from "../api/UserApi";
+import {User} from "../model/User";
 
 const defaultSettings: UserContextType = {
     currentUser: null,
