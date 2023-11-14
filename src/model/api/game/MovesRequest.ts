@@ -1,4 +1,5 @@
 export type MovesRequest = {
-     boardState:string
+    boardState:string
     piecePosition:string
+    castles: string[]
 }
