@@ -49,9 +49,9 @@ export const LoginForm = () =>{
                     <SubmitButton onClick={onLoginClicked}>
                         Login
                     </SubmitButton>
-                    <ForgotPassword>
-                        <a href="#">Forgot password?</a>
-                    </ForgotPassword>
+                    {/*<ForgotPassword>*/}
+                    {/*    <a href="#">Forgot password?</a>*/}
+                    {/*</ForgotPassword>*/}
             </FormWrapper>
         </LoginContainer>
     )

@@ -22,6 +22,10 @@ export const GamePage = () => {
     useEffect(() => {
         game()
     }, []);
+
+    useEffect(() => {
+        console.log(gameContext.game)
+    }, [gameContext.game]);
     return(
         <Section>
            <Board/>

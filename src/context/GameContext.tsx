@@ -4,12 +4,13 @@ import {PieceModel} from "../model/pieces/PieceModel";
 import {deafoultPiecesSetUp} from "../model/pieces/DeafoultPiecesSetUp";
 import {Coordinate} from "../model/api/game/Coordinate";
 import {GameResponse} from "../model/api/game/GameResponse";
+import {Game} from "../model/game/Game";
 
 
 
 const defaultSetting: GameContextType = {
     game:null,
-    gameModifier:(game:GameResponse|null) => {},
+    gameModifier:(game:Game|null) => {},
     promoteX:0,
     colorTurn:"white",
     colorTurnModifier: (color: string) => {},
