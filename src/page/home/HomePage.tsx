@@ -3,20 +3,23 @@ import React, {useCallback, useContext, useState} from "react";
 import {GameContext} from "../../context/GameContext";
 import {QueueApi} from "../../api/QueueApi";
 import {useNavigate} from "react-router-dom";
+import {UserContext} from "../../context/UserContext";
 
 export const HomePage = () => {
+    const userContext = useContext(UserContext)
     const gameContext = useContext(GameContext)
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false)
     const searchGame = useCallback(async () => {
         try {
             setLoading(true)
-            const response = await QueueApi.join("username")
-            gameContext.gameModifier({id:response.data,history:[],players:[]})
-            navigate("/game/online")
-            setLoading(false)
+            if(userContext.currentUser) {
+                const response = await QueueApi.join(userContext.currentUser?.username)
+                gameContext.gameModifier({id: response.data, history: [], players: []})
+                navigate(`/game/${response.data}`)
+                setLoading(false)
+            }
         } catch (error: any) {
-            // console.log(error)
             setLoading(false)
         }
     }, []);
