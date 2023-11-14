@@ -1,10 +1,11 @@
 import {PieceModel} from "../pieces/PieceModel";
 import {Coordinate} from "../api/game/Coordinate";
-import {Game} from "../game/Game";
+import {GameResponse} from "../api/game/GameResponse";
+
 
 export type GameContextType = {
-    game:Game|null
-    gameModifier:(game:Game|null) => void
+    game:GameResponse|null
+    gameModifier:(game:GameResponse|null) => void
     promoteX:number
     colorTurn:string
     colorTurnModifier: (color: string) => void

@@ -3,12 +3,13 @@ import {GameContextType} from "../model/context/GameContextType";
 import {PieceModel} from "../model/pieces/PieceModel";
 import {deafoultPiecesSetUp} from "../model/pieces/DeafoultPiecesSetUp";
 import {Coordinate} from "../model/api/game/Coordinate";
-import {Game} from "../model/game/Game";
+import {GameResponse} from "../model/api/game/GameResponse";
+
 
 
 const defaultSetting: GameContextType = {
     game:null,
-    gameModifier:(game:Game|null) => {},
+    gameModifier:(game:GameResponse|null) => {},
     promoteX:0,
     colorTurn:"white",
     colorTurnModifier: (color: string) => {},
@@ -23,7 +24,7 @@ const defaultSetting: GameContextType = {
 export const GameContext = createContext<GameContextType>(defaultSetting)
 
 export const GameContextProvider = ({ children }: React.PropsWithChildren) => {
-    const [game,setGame] = useState<Game|null>(null)
+    const [game,setGame] = useState<GameResponse|null>(null)
     const [promoteX,setPromoteX] = useState<number>(0)
     const [colorTurn,setColorTurn] = useState("white")
     const [pieces ,setPieces] = useState<PieceModel[]>(deafoultPiecesSetUp)
@@ -47,7 +48,7 @@ export const GameContextProvider = ({ children }: React.PropsWithChildren) => {
         setColorTurn(color)
     }
 
-    function gameModifier(game:Game|null) {
+    function gameModifier(game:GameResponse|null) {
         setGame(game)
     }
 
