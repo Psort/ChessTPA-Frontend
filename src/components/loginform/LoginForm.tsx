@@ -9,7 +9,7 @@ import {
     WelcomeLines
 } from "./LoginForm.styles";
 import {AuthApi} from "../../api/AuthApi";
-import {ACCESS_TOKEN, REFRESH_TOKEN} from "../../constants/constants";
+import {ACCESS_TOKEN, EMAIL, REFRESH_TOKEN} from "../../constants/constants";
 import {toast} from "react-toastify";
 import {UserContext} from "../../context/UserContext";
 
@@ -25,7 +25,8 @@ export const LoginForm = () =>{
             });
             localStorage.setItem(ACCESS_TOKEN,user.data.access_token)
             localStorage.setItem(REFRESH_TOKEN,user.data.refresh_token)
-            userContext.provideUsername(email)
+            localStorage.setItem(EMAIL, email);
+            userContext.triggerModifier()
             toast.info("done")
         } catch (error: any) {
             console.log(error)
