@@ -10,6 +10,7 @@ import {GameApi} from "../../api/GameApi";
 export const Piece = (piece:PieceModel) =>{
     const context = useContext(GameContext)
     const[board,setBoard] = useState("")
+    const [castles, setCastles] = useState<string[]>([]);
     const [{ isDragging }, drag] = useDrag({
         type: piece.type, // Ensure piece.type is of type PieceType
         item: { type: piece.type},
@@ -20,12 +21,18 @@ export const Piece = (piece:PieceModel) =>{
     const setPossibleMoves = useCallback(async () =>{
         try {
 
+            const history = context.game?.history
+            if (history && history.length > 0) {
+                const lastItem = history[history.length - 1];
+                setCastles(lastItem.castleTypes)
+            }
             const response = await GameApi.getPossibleMoves({
                 boardState: board,
-                piecePosition: convertPosition(context.currentPiece?.x, context.currentPiece?.y)
+                piecePosition: convertPosition(context.currentPiece?.x, context.currentPiece?.y),
+                castles: castles
             });
             context.possibleMovesModifier(response.data)
-            // console.log(response.data)
+            console.log(response.data)
         } catch (error) {
             // console.log(error)
         }
