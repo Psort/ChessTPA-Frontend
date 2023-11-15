@@ -1,7 +1,7 @@
 import {PieceType} from "./PieceType";
 
 export type PieceModel = {
-    type: PieceType;
+    type: PieceType|null;
     color:string;
     x: number;
     y: number;
