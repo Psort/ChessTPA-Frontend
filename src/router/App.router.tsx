@@ -10,7 +10,7 @@ export const AppRouter = ()=>{
         <Routes>
             <Route element={<SetContainer/>}>
                 <Route path="/" element={<GameProtectedRoute><HomePage/></GameProtectedRoute>}></Route>
-                <Route path="/game/:gameId" element={<GamePage />}></Route>
+                <Route path="/game/online/:gameId" element={<GamePage />}></Route>
                 <Route path="/login" element={<LoginPage/>}></Route>
                 <Route path="/signup" element={<SignupPage/>}></Route>
             </Route>
