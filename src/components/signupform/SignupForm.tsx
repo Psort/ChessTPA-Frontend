@@ -10,6 +10,7 @@ import {
     WelcomeLines
 } from "../loginform/LoginForm.styles";
 import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 export const SignupForm = () => {
     const navigate = useNavigate();
@@ -23,6 +24,7 @@ export const SignupForm = () => {
                 email: email,
                 password: password,
             });
+            toast.info("done")
         } catch (error: any) {
             let errorMessage;
             console.log(errorMessage)
