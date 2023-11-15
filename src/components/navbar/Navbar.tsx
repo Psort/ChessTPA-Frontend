@@ -2,16 +2,21 @@
 import React, {useContext} from "react";
 import {LoginButton, Logo, NavContainer, RegisterButton} from "./Navbar.styles";
 import {useNavigate} from "react-router-dom";
-import {EMAIL} from "../../constants/constants";
+import {ACCESS_TOKEN, EMAIL, REFRESH_TOKEN} from "../../constants/constants";
 import {UserContext} from "../../context/UserContext";
+import {GameContext} from "../../context/GameContext";
 
 export const Navbar = () =>{
     const navigate = useNavigate();
     const userContext = useContext(UserContext)
+    const gameContext = useContext(GameContext)
 
-    const logut = () => {
+    const logout = () => {
         localStorage.removeItem(EMAIL);
+        localStorage.removeItem(ACCESS_TOKEN);
+        localStorage.removeItem(REFRESH_TOKEN);
         userContext.userModifier(null);
+        gameContext.gameModifier(null)
         navigate("/")
     }
     return(
@@ -20,16 +25,21 @@ export const Navbar = () =>{
             <RegisterButton onClick={()=>navigate("/")}>
                 Play
             </RegisterButton>
-            <RegisterButton onClick={()=>navigate("/signup")}>
-                Sign Up
-            </RegisterButton>
-            <LoginButton onClick={()=>navigate("/login")}>
-                Log in
-            </LoginButton>
-            <LoginButton onClick={() => logut()
-            }>
-                Log out
-            </LoginButton>
+            {localStorage.getItem(EMAIL) ? (
+                    <RegisterButton onClick={() => logout()}>
+                        Log out
+                    </RegisterButton>
+            ) : (
+                <>
+                    <RegisterButton onClick={() => navigate("/signup")}>
+                        Sign Up
+                    </RegisterButton>
+                    <LoginButton onClick={() => navigate("/login")}>
+                        Log in
+                    </LoginButton>
+                </>
+            )}
+
         </NavContainer>
     )
 }
