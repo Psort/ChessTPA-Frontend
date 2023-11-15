@@ -1,8 +1,7 @@
 import React, {createContext, useCallback, useEffect, useState} from "react";
 import {GameContextType} from "../model/context/GameContextType";
 import {PieceModel} from "../model/pieces/PieceModel";
-import {deafoultPiecesSetUp} from "../model/pieces/DeafoultPiecesSetUp";
-import {Coordinate} from "../model/api/game/Coordinate";
+import {Coordinate} from "../model/api/engine/Coordinate";
 import {GameResponse} from "../model/api/game/GameResponse";
 import {Game} from "../model/game/Game";
 
@@ -14,8 +13,8 @@ const defaultSetting: GameContextType = {
     promoteX:0,
     colorTurn:"white",
     colorTurnModifier: (color: string) => {},
-    pieces:deafoultPiecesSetUp,
-    piecesModifier: (pieces: PieceModel[]) => {},
+    pieces:[],
+    piecesModifier: (pieces: PieceModel[][]) => {},
     currentPiece: null,
     currentPieceModifier: (piece: PieceModel | null) => {},
     possibleMoves:null,
@@ -28,7 +27,7 @@ export const GameContextProvider = ({ children }: React.PropsWithChildren) => {
     const [game,setGame] = useState<GameResponse|null>(null)
     const [promoteX,setPromoteX] = useState<number>(0)
     const [colorTurn,setColorTurn] = useState("white")
-    const [pieces ,setPieces] = useState<PieceModel[]>(deafoultPiecesSetUp)
+    const [pieces ,setPieces] = useState<PieceModel[][]>([])
     const [currentPiece, setCurrentPiece] = useState<PieceModel | null>(null);
     const [possibleMoves,setPossibleMoves] = useState<Coordinate[]|null>(null)
     const currentPieceModifier = (piece:PieceModel | null) => {
@@ -38,7 +37,7 @@ export const GameContextProvider = ({ children }: React.PropsWithChildren) => {
         setPossibleMoves(possibleMoves);
     }
 
-    function piecesModifier(pieces: PieceModel[] ) {
+    function piecesModifier(pieces: PieceModel[][]) {
         setPieces(pieces)
     }
     useEffect(() => {
