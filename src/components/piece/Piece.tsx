@@ -4,15 +4,15 @@ import {Img, StyledPiece} from "./Piece.styles";
 import {PieceModel} from "../../model/pieces/PieceModel";
 import {  useDrag } from "react-dnd";
 import {GameContext} from "../../context/GameContext";
-import {convertPosition, generateChessboard} from "../../utils/GameContextUtils";
+import {boardToBoardState, convertPosition, } from "../../utils/GameContextUtils";
 import {GameApi} from "../../api/GameApi";
+import {EngineApi} from "../../api/EngineApi";
 
 export const Piece = (piece:PieceModel) =>{
-    const context = useContext(GameContext)
+    const gameContext = useContext(GameContext)
     const[board,setBoard] = useState("")
-    const [castles, setCastles] = useState<string[]>([]);
     const [{ isDragging }, drag] = useDrag({
-        type: piece.type, // Ensure piece.type is of type PieceType
+        type: piece.type!!, // Ensure piece.type is of type PieceType
         item: { type: piece.type},
         collect: monitor => ({
             isDragging: monitor.isDragging()
@@ -21,34 +21,35 @@ export const Piece = (piece:PieceModel) =>{
     const setPossibleMoves = useCallback(async () =>{
         try {
 
-            const history = context.game?.history
-            if (history && history.length > 0) {
-                const lastItem = history[history.length - 1];
-                setCastles(lastItem.castleTypes)
-            }
-            const response = await GameApi.getPossibleMoves({
+            // const history = gameContext.game?.history
+            // if (history && history.length > 0) {
+            //     const lastItem = history[history.length - 1];
+            //     setCastles(lastItem.castleTypes)
+            // }
+            const response = await EngineApi.getPossibleMoves({
                 boardState: board,
-                piecePosition: convertPosition(context.currentPiece?.x, context.currentPiece?.y),
-                castles: castles
+                piecePosition: convertPosition(gameContext.currentPiece?.x, gameContext.currentPiece?.y),
+                castles: []
             });
-            context.possibleMovesModifier(response.data)
-            console.log(response.data)
+            gameContext.possibleMovesModifier(response.data)
+            // console.log(response.data)
         } catch (error) {
             // console.log(error)
         }
         return true;
-    },[board,context])
+    },[board,gameContext])
     useEffect(() => {
         if (board){
             setPossibleMoves()
         }
-    }, [board,context.currentPiece]);
+    }, [board,gameContext.currentPiece]);
     useEffect(() => {
-        if (isDragging){
-            context.currentPieceModifier(piece)
-            setBoard(generateChessboard(context.pieces))
-        }else{
-            context.possibleMovesModifier(null)
+        if (isDragging) {
+            gameContext.currentPieceModifier(piece)
+            setBoard(boardToBoardState(gameContext.pieces))
+        }
+        else{
+            gameContext.possibleMovesModifier(null)
         }
     }, [isDragging]);
     return (
