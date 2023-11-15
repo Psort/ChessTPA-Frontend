@@ -1,11 +1,27 @@
-export const PiecesTypes = {
-    PAWN: 'P' as const,
-    KNIGHT: 'N' as const,
-    BISHOP: 'B' as const,
-    ROOK: 'R' as const,
-    KING: 'K' as const,
-    QUEEN: 'Q' as const,
+export enum PieceType {
+    PAWN = 'P',
+    KNIGHT = 'N',
+    BISHOP = 'B',
+    ROOK = 'R',
+    KING = 'K',
+    QUEEN = 'Q',
+}
+export const getPieTypeFromSymbol = (symbol: string): PieceType | null => {
+    const upperSymbol = symbol.toUpperCase();
+    switch (upperSymbol) {
+        case 'P':
+            return PieceType.PAWN;
+        case 'N':
+            return PieceType.KNIGHT;
+        case 'B':
+            return PieceType.BISHOP;
+        case 'R':
+            return PieceType.ROOK;
+        case 'K':
+            return PieceType.KING;
+        case 'Q':
+            return PieceType.QUEEN;
+        default:
+            return null; // Invalid symbol
+    }
 };
-
-// Type definition
-export type PieceType = typeof PiecesTypes[keyof typeof PiecesTypes];

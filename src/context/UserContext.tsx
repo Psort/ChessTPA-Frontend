@@ -39,15 +39,6 @@ export const UserContextProvider = ({ children }: React.PropsWithChildren) => {
             fetchUserByEmail()
         }
     }, [trigger])
-    // async function fetchUserByEmail(email: string) {
-    //     try {
-    //         console.log("here")
-    //         const user = await UserApi.getUser(email)
-    //         userModifier(user.data)
-    //     } catch (error: any) {
-    //         console.log(error)
-    //     }
-    // }
 
     return (
     <UserContext.Provider value={{ currentUser, userModifier, triggerModifier}}>
