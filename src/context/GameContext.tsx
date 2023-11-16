@@ -1,4 +1,4 @@
-import React, {createContext, useCallback, useEffect, useState} from "react";
+import React, {createContext, useEffect, useState} from "react";
 import {GameContextType} from "../model/context/GameContextType";
 import {PieceModel} from "../model/pieces/PieceModel";
 import {Coordinate} from "../model/api/engine/Coordinate";
@@ -24,7 +24,7 @@ const defaultSetting: GameContextType = {
 export const GameContext = createContext<GameContextType>(defaultSetting)
 
 export const GameContextProvider = ({ children }: React.PropsWithChildren) => {
-    const [game,setGame] = useState<GameResponse|null>(null)
+    const [game,setGame] = useState<Game|null>(null)
     const [promoteX,setPromoteX] = useState<number>(0)
     const [colorTurn,setColorTurn] = useState("white")
     const [pieces ,setPieces] = useState<PieceModel[][]>([])
@@ -41,14 +41,14 @@ export const GameContextProvider = ({ children }: React.PropsWithChildren) => {
         setPieces(pieces)
     }
     useEffect(() => {
-        setPromoteX(currentPiece?.color != "white" ? 8 : 1)
+        setPromoteX(currentPiece?.color !== "white" ? 8 : 1)
     }, [currentPiece]);
 
     function colorTurnModifier(color:string) {
         setColorTurn(color)
     }
 
-    function gameModifier(game:GameResponse|null) {
+    function gameModifier(game:Game|null) {
         setGame(game)
     }
 
