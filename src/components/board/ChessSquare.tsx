@@ -7,6 +7,7 @@ import {EngineApi} from "../../api/EngineApi";
 import {boardToBoardState, convertPosition} from "../../utils/GameContextUtils";
 import {GameApi} from "../../api/GameApi";
 import {UserContext} from "../../context/UserContext";
+import {sendMessageWithGameId} from "../../message/MessageSender";
 
 type ChessSquareProps = {
     x: number,
@@ -80,6 +81,11 @@ export const ChessSquare = (props: ChessSquareProps) => {
             getGameStatus(boardToBoardState(clonedBoard)).then(gameStatus=>{
                 safeGameStatus(boardToBoardState(clonedBoard),gameStatus,convertPosition(actualX, actualY),convertPosition(x, y))
             })
+
+            if(gameContext.game?.id) {
+                console.log("SENT MESSAGE")
+                sendMessageWithGameId(gameContext.game?.id)
+            }
         }
     };
     
