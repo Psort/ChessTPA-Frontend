@@ -15,6 +15,7 @@ export const GamePage = () => {
         try {
             const response = await GameApi.getGame(gameId)
             gameContext.gameModifier(response.data)
+            gameContext.colorTurnModifier(response.data.actualColor)
             const boardState= response.data.history.at(response.data.history.length - 1)?.boardState;
             if (boardState){
                 gameContext.piecesModifier(boardStateToBoard(boardState))

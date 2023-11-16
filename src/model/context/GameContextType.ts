@@ -5,7 +5,7 @@ import {Game} from "../game/Game";
 
 
 export type GameContextType = {
-    game:GameResponse|null
+    game:Game|null
     gameModifier:(game:Game|null) => void
     promoteX:number
     colorTurn:string

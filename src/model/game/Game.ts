@@ -1,8 +1,9 @@
 import {GameState} from "./GameState";
-import {User} from "../User";
+import {Player} from "./Player";
 
 export type Game = {
     id:string
     history:GameState[]
-    players:User[]
+    players:Player[]
+    actualColor:string
 }
