@@ -35,7 +35,7 @@ export const ChessSquare = (props: ChessSquareProps) => {
             const response = await EngineApi.getGameStatus({
                 boardState:board,
                 color:gameContext.colorTurn.toLowerCase() === "white" ? "black" : "white",
-                castles:[],
+                castles:gameContext.actualGameState?.castleTypes??[],
             });
             setGameStatus(response.data)
             return response.data

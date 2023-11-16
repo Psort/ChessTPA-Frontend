@@ -20,16 +20,10 @@ export const Piece = (piece:PieceModel) =>{
     });
     const setPossibleMoves = useCallback(async () =>{
         try {
-
-            // const history = gameContext.game?.history
-            // if (history && history.length > 0) {
-            //     const lastItem = history[history.length - 1];
-            //     setCastles(lastItem.castleTypes)
-            // }
             const response = await EngineApi.getPossibleMoves({
                 boardState: board,
                 piecePosition: convertPosition(gameContext.currentPiece?.x, gameContext.currentPiece?.y),
-                castles: []
+                castles: gameContext.actualGameState?.castleTypes??[]
             });
             gameContext.possibleMovesModifier(response.data)
             // console.log(response.data)
