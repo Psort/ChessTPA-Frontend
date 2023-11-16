@@ -5,7 +5,8 @@ import {GameApi} from "../../api/GameApi";
 import {GameContext} from "../../context/GameContext";
 import {useParams} from "react-router-dom";
 import {boardStateToBoard} from "../../utils/GameContextUtils";
-
+import SockJS from "sockjs-client";
+import {Stomp} from "@stomp/stompjs";
 
 export const GamePage = () => {
     const { gameId } = useParams();
@@ -24,6 +25,32 @@ export const GamePage = () => {
             console.log(error)
         }
     }, []);
+
+    useEffect(() => {
+        const sock = new SockJS('http://localhost:8080/stomp');
+        const client = Stomp.over(sock);
+
+        const connectCallback = () => {
+            client.subscribe('/topic/messages', (payload) => {
+                const newMessage = JSON.parse(payload.body);
+                if(newMessage){
+                    if(gameId){
+                        if(newMessage.id.toString() === gameId) {
+                            gameContext.gameModifier(newMessage)
+                        }
+                    }
+                }
+            });
+        };
+
+        client.connect({}, connectCallback);
+
+        return () => {
+            client.disconnect(() => {
+            });
+        };
+    }, []);
+
     useEffect(() => {
         getGame()
     }, []);
