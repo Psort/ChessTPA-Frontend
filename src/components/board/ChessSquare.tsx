@@ -4,17 +4,22 @@ import React, {useCallback, useContext, useEffect, useState} from "react";
 import {GameContext} from "../../context/GameContext";
 import {PieceType} from "../../model/pieces/PieceType";
 import {EngineApi} from "../../api/EngineApi";
-import {boardToBoardState} from "../../utils/GameContextUtils";
+import {boardToBoardState, convertPosition} from "../../utils/GameContextUtils";
+import {GameApi} from "../../api/GameApi";
+import {UserContext} from "../../context/UserContext";
 
 type ChessSquareProps = {
     x: number,
     y: number,
     color: string,
+    playerColor: string,
     children?: React.ReactNode
 }
 export const ChessSquare = (props: ChessSquareProps) => {
-    const gameContext = useContext(GameContext)
     const [isPossibleMove,setIsPossibleMove] = useState(false)
+    const [gameStatus,setGameStatus] = useState("")
+    const gameContext = useContext(GameContext)
+    const userContext = useContext(UserContext)
     const [ { isOver, canDrop },drop] = useDrop({
         accept: Object.values(PieceType),
         drop: () => move(props.x,props.y),
@@ -24,18 +29,37 @@ export const ChessSquare = (props: ChessSquareProps) => {
             canDrop: monitor.canDrop,
         })
     });
+
     const getGameStatus  = useCallback(async (board:string) => {
         try {
             const response = await EngineApi.getGameStatus({
                 boardState:board,
-                color:gameContext.colorTurn === "white" ? "black" : "white",
+                color:gameContext.colorTurn.toLowerCase() === "white" ? "black" : "white",
                 castles:[],
             });
-            console.log(response.data)
+            setGameStatus(response.data)
+            return response.data
         } catch (error: any) {
             console.log(error)
         }
-    }, [gameContext.colorTurn,gameContext.pieces]);
+    }, [gameContext.colorTurn]);
+
+    const safeGameStatus  = useCallback(async (board:string,gameStatus:string,startCoordinate:string,moveCoordinate:string) => {
+        try {
+            await GameApi.safeGameStatus({
+               gameId:gameContext.game?.id,
+                boardState:board,
+                move:{
+                    player:userContext.currentUser,
+                    coordinates: [startCoordinate,moveCoordinate]
+                },
+                gameStatus:gameStatus
+            });
+        } catch (error: any) {
+            console.log(error)
+        }
+    }, [userContext.currentUser,gameContext.game?.id]);
+
     const move = (x: number, y: number) => {
         if (gameContext.currentPiece) {
             const clonedBoard = JSON.parse(JSON.stringify(gameContext.pieces)); // Deep clone to avoid mutation
@@ -51,15 +75,32 @@ export const ChessSquare = (props: ChessSquareProps) => {
                 clonedBoard[x-1][y-1].type = PieceType.QUEEN
                 console.log("to Do to Other Pieces")
             }
+
             gameContext.piecesModifier(clonedBoard);
-            getGameStatus(boardToBoardState(clonedBoard))
-            gameContext.colorTurnModifier(gameContext.colorTurn === "white" ? "black" : "white");
+            getGameStatus(boardToBoardState(clonedBoard)).then(gameStatus=>{
+                safeGameStatus(boardToBoardState(clonedBoard),gameStatus,convertPosition(actualX, actualY),convertPosition(x, y))
+            })
         }
     };
-
+    
+    useEffect(() => {
+        switch (gameStatus) {
+            case "GAME":
+                console.log("Game");
+                break;
+            case "CHECKMATE":
+                console.log("CHECKMATE");
+                break;
+            case "PAT":
+                console.log("PAT");
+                break;
+            default:
+                console.log("D:"+gameStatus);
+        }
+    }, [gameStatus]);
 
     function canMove(x: number, y: number) {
-        if (gameContext.currentPiece?.color !== gameContext.colorTurn){
+        if (gameContext.currentPiece?.color !== gameContext.colorTurn.toLowerCase()){
             return false
         }
         if(gameContext.possibleMoves){
@@ -70,11 +111,11 @@ export const ChessSquare = (props: ChessSquareProps) => {
     useEffect(() => {
         const hasPossibleMoves= gameContext.possibleMoves?!!gameContext.possibleMoves?.find(move => move.x === props.x && move.y+1 === props.y):false
         setIsPossibleMove(hasPossibleMoves);
-    }, [gameContext.possibleMoves]);
+    }, [gameContext.possibleMoves,props.x,props.y]);
 
     return (
         <div ref={drop}>
-        <StyledChessSquare x={props.x} y={props.y} color={props.color} isPossibleMove={isPossibleMove}>
+        <StyledChessSquare x={props.x} y={props.y} color={props.color} isPossibleMove={isPossibleMove} playerColor={props.playerColor}>
             {props.children}
         </StyledChessSquare>
         </div>

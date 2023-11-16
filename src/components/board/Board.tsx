@@ -1,23 +1,26 @@
 import {BoardContainer} from "./Board.styles";
-import React, {useContext, useEffect} from "react";
+import React, {useContext} from "react";
 import {Piece} from "../piece/Piece";
 import {ChessSquare} from "./ChessSquare";
 import {GameContext} from "../../context/GameContext";
+import {UserContext} from "../../context/UserContext";
 
 export const Board = () => {
     const gameContext = useContext(GameContext);
+    const userContext = useContext(UserContext);
+    const playerColor = gameContext.game?.players.find(player=>player.username === userContext.currentUser?.username )?.color
     let spots: React.ReactElement[] =gameContext.pieces.flatMap((row, i) => {
             return row.map((piece, j) => {
                 const color = (i + j) % 2 === 0 ? "white" : "black";
                 return (
-                    <ChessSquare x={i+1} y={j+1} color={color} key={`${i}-${j}`}>
+                    <ChessSquare x={i+1} y={j+1} color={color}  key={`${i}-${j}`} playerColor={playerColor??""}>
                         {piece.type  && <Piece color={piece.color} type={piece.type} x={piece.x} y={piece.y} />}
                     </ChessSquare>
                 );
             });
         });
     return(
-        <BoardContainer >
+        <BoardContainer  playerColor={playerColor??""}>
             {spots}
         </BoardContainer>
     )
