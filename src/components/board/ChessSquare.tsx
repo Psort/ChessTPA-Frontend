@@ -83,7 +83,6 @@ export const ChessSquare = (props: ChessSquareProps) => {
             })
 
             if(gameContext.game?.id) {
-                console.log("SENT MESSAGE")
                 sendMessageWithGameId(gameContext.game?.id)
             }
         }
