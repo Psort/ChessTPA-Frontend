@@ -31,7 +31,7 @@ export const GamePage = () => {
         const sock = new SockJS('http://localhost:8080/stomp');
         const client = Stomp.over(sock);
         const connectCallback = () => {
-            client.subscribe('/topic/messages', (payload) => {
+            client.subscribe(`/topic/messages/${gameId}`, (payload) => {
                 const newMessage = JSON.parse(payload.body);
                 if(newMessage && gameId) {
                         if(newMessage.id === gameId) {
