@@ -7,7 +7,7 @@ import {EngineApi} from "../../api/EngineApi";
 import {boardToBoardState, convertPosition} from "../../utils/GameContextUtils";
 import {GameApi} from "../../api/GameApi";
 import {UserContext} from "../../context/UserContext";
-import {sendMessageWithGameId} from "../../message/MessageSender";
+import {sendMessageWithGameId} from "../../utils/WebSocketUtils";
 
 type ChessSquareProps = {
     x: number,
