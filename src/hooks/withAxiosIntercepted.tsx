@@ -23,11 +23,10 @@ export function withAxiosIntercepted<T extends JSX.IntrinsicAttributes>(
         });
         localStorage.setItem(ACCESS_TOKEN,response.data.access_token)
         localStorage.setItem(REFRESH_TOKEN,response.data.refresh_token)
-        console.log(response.data.access_token)
       } catch (error: any) {
         console.log(error)
       }
-    }, []);
+    }, [localStorage.getItem(REFRESH_TOKEN)]);
     useEffect(() => {
       axios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 
@@ -44,8 +43,8 @@ export function withAxiosIntercepted<T extends JSX.IntrinsicAttributes>(
           const tokenExp = decodedToken.exp as number;
           const currentTimestamp = Math.round(Date.now() / 1000);
           if (tokenExp < currentTimestamp) {
-            console.log("siema")
-            // await refreshToken()
+            console.log("wygasł")
+            await refreshToken()
           }
         }
         if (config?.headers) {
