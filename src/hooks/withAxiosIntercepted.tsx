@@ -43,7 +43,6 @@ export function withAxiosIntercepted<T extends JSX.IntrinsicAttributes>(
           const tokenExp = decodedToken.exp as number;
           const currentTimestamp = Math.round(Date.now() / 1000);
           if (tokenExp < currentTimestamp) {
-            console.log("wygasł")
             await refreshToken()
           }
         }
