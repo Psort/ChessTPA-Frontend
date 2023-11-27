@@ -16,12 +16,6 @@ export const GamePage = () => {
         try {
             const response = await GameApi.getGame(gameId)
             gameContext.gameModifier(response.data)
-            console.log("RESPONSE Z FETCHA", response.data)
-            gameContext.colorTurnModifier(response.data.actualColor)
-            const boardState= response.data.history.at(response.data.history.length - 1)?.boardState;
-            if (boardState){
-                gameContext.piecesModifier(boardStateToBoard(boardState))
-            }
         } catch (error: any) {
             console.log(error)
         }
@@ -38,11 +32,6 @@ export const GamePage = () => {
                 if(newMessage && gameId) {
                         if(newMessage.id === gameId) {
                             gameContext.gameModifier(newMessage)
-                            gameContext.colorTurnModifier(newMessage.actualColor)
-                            const boardState= newMessage.history.at(newMessage.history.length - 1)?.boardState;
-                            if (boardState){
-                                gameContext.piecesModifier(boardStateToBoard(boardState))
-                            }
                         }
                 }
             });
@@ -59,10 +48,6 @@ export const GamePage = () => {
     useEffect(() => {
         getGame()
     }, []);
-
-    useEffect(() => {
-
-    },[gameContext.game])
     return(
         <Section>
            <Board/>
