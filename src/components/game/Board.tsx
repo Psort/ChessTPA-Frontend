@@ -5,11 +5,15 @@ import {ChessSquare} from "./ChessSquare";
 import {GameContext} from "../../context/GameContext";
 import {UserContext} from "../../context/UserContext";
 import {ColorType} from "../../model/game/ColorType";
+import {EndGameModal} from "../modal/EndGameModal";
+import {useNavigate} from "react-router-dom";
 
 export const Board = () => {
     const gameContext = useContext(GameContext);
     const userContext = useContext(UserContext);
-    const [endGame,setEndGame] = useState(false)
+    const navigate = useNavigate();
+    const [open, setOpen] = useState<boolean>(false);
+    const [endGame, setEndGame] = useState(false)
     const playerColor = gameContext.game?.players.find(player=>player.username === userContext.currentUser?.username )?.color
     let spots: React.ReactElement[] =gameContext.pieces.flatMap((row, i) => {
             return row.map((piece, j) => {
@@ -21,6 +25,17 @@ export const Board = () => {
                 );
             });
         });
+
+    const handleCloseModal = () => {
+        setOpen(false);
+        navigate("/");
+    };
+
+    useEffect(() => {
+        if(endGame){
+            setOpen(true)
+        }
+    }, [endGame])
 
     useEffect(() => {
         const gameStatus = gameContext.actualGameState?.status
@@ -36,9 +51,13 @@ export const Board = () => {
             default:
         }
     }, [gameContext.actualGameState?.status]);
+
     return(
+        <>
         <BoardContainer  playerColor={playerColor??""}>
             <>{spots}</>
         </BoardContainer>
+            <EndGameModal isOpen={open} onClose={handleCloseModal} />
+        </>
     )
 }
