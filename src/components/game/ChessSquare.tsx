@@ -11,6 +11,7 @@ import {sendMessageWithGameId} from "../../message/MessageSender";
 import {ColorType} from "../../model/game/ColorType";
 import {ToolTip} from "./ToolTip";
 import {PieceModel} from "../../model/pieces/PieceModel";
+import moveSound from "../../resources/sounds/moveSound.mp3"
 
 type ChessSquareProps = {
     x: number,
@@ -21,6 +22,7 @@ type ChessSquareProps = {
 }
 export const ChessSquare = (props: ChessSquareProps) => {
     const [isPossibleMove,setIsPossibleMove] = useState(false)
+    const [isMoveSoundPlaying, setIsMoveSoundPlaying] = useState(false);
     const [showTooltip,setShowTooltip] = useState(false)
     const gameContext = useContext(GameContext)
     const userContext = useContext(UserContext)
@@ -33,6 +35,15 @@ export const ChessSquare = (props: ChessSquareProps) => {
             canDrop: monitor.canDrop,
         })
     });
+    const playMoveSound = () => {
+        const audioElement = new Audio(moveSound);
+        audioElement.play();
+        setIsMoveSoundPlaying(true);
+
+        audioElement.addEventListener('ended', () => {
+            setIsMoveSoundPlaying(false);
+        });
+    };
 
     const getGameStatus  = useCallback(async (board:string) => {
         try {
@@ -71,6 +82,7 @@ export const ChessSquare = (props: ChessSquareProps) => {
 
     const move = (x: number, y: number) => {
         if (gameContext.currentPiece) {
+            playMoveSound();
             const clonedBoard = JSON.parse(JSON.stringify(gameContext.pieces)); // Deep clone to avoid mutation
             const actualX = gameContext.currentPiece.x
             const actualY = gameContext.currentPiece.y
