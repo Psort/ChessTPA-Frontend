@@ -1,6 +1,6 @@
 import {Section} from "../../App.styles";
 import React, {useCallback, useContext, useEffect} from "react";
-import {Board} from "../../components/board/Board";
+import {Board} from "../../components/game/Board";
 import {GameApi} from "../../api/GameApi";
 import {GameContext} from "../../context/GameContext";
 import {useParams} from "react-router-dom";
