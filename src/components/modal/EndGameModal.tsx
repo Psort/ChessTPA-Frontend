@@ -15,9 +15,9 @@ export const EndGameModal: React.FC<EndGameModalProps> = ({ isOpen, onClose }) =
     return (
         <ModalWrapper isOpen={isOpen}>
             <ModalContent>
-
                 <h2>GAME OVER</h2>
-                <p>{playerColor} WINS</p>
+                <h3>{playerColor} WINS</h3>
+                <p>REMATCH</p>
                 <CloseButton onClick={onClose}>&times;</CloseButton>
             </ModalContent>
         </ModalWrapper>

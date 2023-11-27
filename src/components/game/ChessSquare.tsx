@@ -22,7 +22,6 @@ type ChessSquareProps = {
 }
 export const ChessSquare = (props: ChessSquareProps) => {
     const [isPossibleMove,setIsPossibleMove] = useState(false)
-    const [isMoveSoundPlaying, setIsMoveSoundPlaying] = useState(false);
     const [showTooltip,setShowTooltip] = useState(false)
     const gameContext = useContext(GameContext)
     const userContext = useContext(UserContext)
@@ -38,11 +37,6 @@ export const ChessSquare = (props: ChessSquareProps) => {
     const playMoveSound = () => {
         const audioElement = new Audio(moveSound);
         audioElement.play();
-        setIsMoveSoundPlaying(true);
-
-        audioElement.addEventListener('ended', () => {
-            setIsMoveSoundPlaying(false);
-        });
     };
 
     const getGameStatus  = useCallback(async (board:string) => {
