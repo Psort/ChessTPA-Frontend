@@ -1,5 +1,5 @@
 import {useDrop} from "react-dnd";
-import {ChangeFigureButton, IMG, StyledChessSquare} from "./Board.styles";
+import {StyledChessSquare} from "./Board.styles";
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import {GameContext} from "../../context/GameContext";
 import {PieceType} from "../../model/pieces/PieceType";
@@ -8,7 +8,6 @@ import {boardToBoardState, convertPosition} from "../../utils/GameContextUtils";
 import {GameApi} from "../../api/GameApi";
 import {UserContext} from "../../context/UserContext";
 import {sendMessageWithGameId} from "../../message/MessageSender";
-import {Tooltip} from "react-tooltip";
 import {ColorType} from "../../model/game/ColorType";
 import {ToolTip} from "./ToolTip";
 import {PieceModel} from "../../model/pieces/PieceModel";
@@ -23,8 +22,6 @@ type ChessSquareProps = {
 export const ChessSquare = (props: ChessSquareProps) => {
     const [isPossibleMove,setIsPossibleMove] = useState(false)
     const [showTooltip,setShowTooltip] = useState(false)
-    const [endGame,setEndGame] = useState(false)
-    const [gameStatus,setGameStatus] = useState("")
     const gameContext = useContext(GameContext)
     const userContext = useContext(UserContext)
     const [ { isOver, canDrop },drop] = useDrop({
@@ -44,7 +41,6 @@ export const ChessSquare = (props: ChessSquareProps) => {
                 color:gameContext.colorTurn === ColorType.WHITE ? ColorType.BLACK : ColorType.WHITE,
                 castles:gameContext.actualGameState?.castleTypes??[],
             });
-            setGameStatus(response.data)
             return response.data
         } catch (error: any) {
             console.log(error)
@@ -67,16 +63,27 @@ export const ChessSquare = (props: ChessSquareProps) => {
         }
     }, [userContext.currentUser,gameContext.game?.id]);
 
+    function changePiecePosition(clonedBoard:PieceModel[][],color:ColorType,type:PieceType|null,actualX: number, actualY: number, x: number, y: number) {
+        clonedBoard[x - 1][y - 1].type = type
+        clonedBoard[x - 1][y - 1].color = color
+        clonedBoard[actualX - 1][actualY - 1].type = null
+    }
+
     const move = (x: number, y: number) => {
         if (gameContext.currentPiece) {
             const clonedBoard = JSON.parse(JSON.stringify(gameContext.pieces)); // Deep clone to avoid mutation
             const actualX = gameContext.currentPiece.x
             const actualY = gameContext.currentPiece.y
+            const type = gameContext.currentPiece.type
+            const color = gameContext.currentPiece.color
 
-            clonedBoard[x-1][y-1].type = gameContext.currentPiece.type
-            clonedBoard[x-1][y-1].color = gameContext.currentPiece.color
-            clonedBoard[actualX-1][actualY-1].type = null
-            clonedBoard[actualX-1][actualY-1].color = ""
+            changePiecePosition(clonedBoard,color,type, actualX, actualY, x, y);
+
+            if (type == PieceType.KING && Math.abs(actualY - y) == 2){
+                const emptyY = actualY > y ? 1 : 8;
+                const RookY = actualY > y ? 4 : 6;
+                changePiecePosition(clonedBoard,color,PieceType.ROOK, x, emptyY, x, RookY);
+            }
 
             gameContext.piecesModifier(clonedBoard);
 
@@ -111,21 +118,9 @@ export const ChessSquare = (props: ChessSquareProps) => {
             return !!gameContext.possibleMoves?.find(move => move.x === x && move.y+1 === y);
         }
         return false
+        // return true
     }
 
-    useEffect(() => {
-        switch (gameStatus) {
-            case "CHECKMATE":
-                setEndGame(true)
-                gameContext.blockActionModifier(true)
-                break;
-            case "PAT":
-                setEndGame(true)
-                gameContext.blockActionModifier(true)
-                break;
-            default:
-        }
-    }, [gameStatus]);
     useEffect(() => {
         const hasPossibleMoves= gameContext.possibleMoves?!!gameContext.possibleMoves?.find(move => move.x === props.x && move.y+1 === props.y):false
         setIsPossibleMove(hasPossibleMoves);
@@ -133,12 +128,11 @@ export const ChessSquare = (props: ChessSquareProps) => {
 
     return (
         <div ref={drop}>
-            {/*{""+showTooltip}*/}
-            <StyledChessSquare x={props.x} y={props.y} color={props.color} isPossibleMove={isPossibleMove} playerColor={props.playerColor} data-tooltip-id={showTooltip ? "my-tooltip":""} >
-                {props.children}
-                {showTooltip &&
-                    <ToolTip safeGame={safeGame} playerColor={props.playerColor} x={props.x} y ={props.y} showTooltip={showTooltip} setShowTooltip={setShowTooltip}/>}
-            </StyledChessSquare>
+                <StyledChessSquare x={props.x} y={props.y} color={props.color} isPossibleMove={isPossibleMove} playerColor={props.playerColor} data-tooltip-id={showTooltip ? "my-tooltip":""} >
+                    {props.children}
+                    {showTooltip &&
+                        <ToolTip safeGame={safeGame} playerColor={props.playerColor} x={props.x} y ={props.y} showTooltip={showTooltip} setShowTooltip={setShowTooltip}/>}
+                </StyledChessSquare>
          </div>
     )
 }

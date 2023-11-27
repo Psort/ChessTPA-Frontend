@@ -16,7 +16,7 @@ export const Piece = (piece:PieceModel) =>{
         collect: monitor => ({
             isDragging: monitor.isDragging()
         }),
-        canDrag:monitor => {return !gameContext.blockAction && gameContext.getCurrentUserColor() == piece.color}
+        canDrag:monitor => {return !gameContext.blockAction && gameContext.getCurrentUserColor() === piece.color}
     });
     const setPossibleMoves = useCallback(async () =>{
         try {
