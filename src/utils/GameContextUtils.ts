@@ -1,5 +1,6 @@
 import {PieceModel} from "../model/pieces/PieceModel";
-import {getPieTypeFromSymbol, PieceType} from "../model/pieces/PieceType";
+import {getPieTypeFromSymbol} from "../model/pieces/PieceType";
+import {ColorType} from "../model/game/ColorType";
 
 export function boardToBoardState(board: PieceModel[][]): string {
     const boardStateRows: string[] = [];
@@ -20,7 +21,7 @@ export function boardToBoardState(board: PieceModel[][]): string {
                     row += emptyCount.toString();
                     emptyCount = 0;
                 }
-                const pieceSymbol = piece.color === 'white' ? piece.type.toUpperCase() : piece.type.toLowerCase();
+                const pieceSymbol = piece.color === ColorType.WHITE ? piece.type.toUpperCase() : piece.type.toLowerCase();
                 row += pieceSymbol;
             }
         }
@@ -59,12 +60,12 @@ export function boardStateToBoard(boardState:string) {
                 const emptySquares = parseInt(char, 10);
                 for (let k = 0; k < emptySquares; k++) {
                     const y = row.length +1; // y coordinate starts from 1
-                    row.push({ x: x, y: y, color: '', type: null }); // or null, depending on your use case
+                    row.push({ x: x, y: y, color: ColorType.WHITE, type: null }); // or null, depending on your use case
                 }
 
             } else {
                 const piece = rows[i][j];
-                const color = piece === piece.toUpperCase() ? 'white' : 'black';
+                const color = piece === piece.toUpperCase() ? ColorType.WHITE : ColorType.BLACK
                 const type = getPieTypeFromSymbol(piece)as null;
                 const y = row.length+1 ; // y coordinate starts from 1
                 row.push({ x, y, color, type });

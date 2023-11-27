@@ -2,10 +2,9 @@
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import {Img, StyledPiece} from "./Piece.styles";
 import {PieceModel} from "../../model/pieces/PieceModel";
-import {  useDrag } from "react-dnd";
+import { useDrag } from "react-dnd";
 import {GameContext} from "../../context/GameContext";
-import {boardToBoardState, convertPosition, } from "../../utils/GameContextUtils";
-import {GameApi} from "../../api/GameApi";
+import {boardToBoardState, convertPosition,} from "../../utils/GameContextUtils";
 import {EngineApi} from "../../api/EngineApi";
 
 export const Piece = (piece:PieceModel) =>{
@@ -16,7 +15,8 @@ export const Piece = (piece:PieceModel) =>{
         item: { type: piece.type},
         collect: monitor => ({
             isDragging: monitor.isDragging()
-        })
+        }),
+        canDrag:monitor => {return !gameContext.blockAction && gameContext.getCurrentUserColor() == piece.color}
     });
     const setPossibleMoves = useCallback(async () =>{
         try {
@@ -26,7 +26,6 @@ export const Piece = (piece:PieceModel) =>{
                 castles: gameContext.actualGameState?.castleTypes??[]
             });
             gameContext.possibleMovesModifier(response.data)
-            // console.log(response.data)
         } catch (error) {
             // console.log(error)
         }
@@ -51,7 +50,7 @@ export const Piece = (piece:PieceModel) =>{
                      style={{
                          opacity: isDragging ? 0.5 : 1
                      }} >
-            <Img src={require("../../resources/Img/Pieces/"+piece.type+piece.color+".png")}/>
+            <Img src={require("../../resources/Img/Pieces/"+piece.type+piece.color.toLowerCase()+".png")}/>
         </StyledPiece>
     );
 }

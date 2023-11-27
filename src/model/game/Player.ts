@@ -1,6 +1,7 @@
+import {ColorType} from "./ColorType";
 
 
 export type Player = {
     username:string
-    color:string
+    color:ColorType
 }

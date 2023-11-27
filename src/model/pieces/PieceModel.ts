@@ -1,8 +1,9 @@
 import {PieceType} from "./PieceType";
+import {ColorType} from "../game/ColorType";
 
 export type PieceModel = {
     type: PieceType|null;
-    color:string;
+    color:ColorType;
     x: number;
     y: number;
 }
