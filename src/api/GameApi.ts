@@ -9,4 +9,7 @@ export class GameApi {
 
   static safeGameStatus = async (request: GameStateRequest) =>
       await authorizedApi.patch("/game", request);
+
+  static getAllGamesForUser = async (username:string|undefined) =>
+      await authorizedApi.get<GameResponse>(`/game/user?username=${username}`);
 }
