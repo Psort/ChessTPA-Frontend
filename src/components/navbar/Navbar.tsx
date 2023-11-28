@@ -26,9 +26,15 @@ export const Navbar = () =>{
                 Play
             </RegisterButton>
             {localStorage.getItem(EMAIL) ? (
+                <>
+                    <RegisterButton onClick={() => navigate("/profile")}>
+                        {userContext.currentUser?.username}
+                    </RegisterButton>
                     <RegisterButton onClick={() => logout()}>
                         Log out
                     </RegisterButton>
+                </>
+
             ) : (
                 <>
                     <RegisterButton onClick={() => navigate("/signup")}>
