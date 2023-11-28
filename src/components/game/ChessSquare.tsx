@@ -60,7 +60,8 @@ export const ChessSquare = (props: ChessSquareProps) => {
                 boardState:board,
                 move:{
                     player:player,
-                    coordinates: [startCoordinate,moveCoordinate]
+                    startingCoordinates: startCoordinate,
+                    endingCoordinates:moveCoordinate
                 },
                 gameStatus:gameStatus
             });
