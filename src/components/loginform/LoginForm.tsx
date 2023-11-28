@@ -12,9 +12,11 @@ import {AuthApi} from "../../api/AuthApi";
 import {ACCESS_TOKEN, EMAIL, REFRESH_TOKEN} from "../../constants/constants";
 import {toast} from "react-toastify";
 import {UserContext} from "../../context/UserContext";
+import {useNavigate} from "react-router-dom";
 
 export const LoginForm = () =>{
     const userContext = useContext(UserContext);
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const onLoginClicked = useCallback(async () => {
@@ -27,6 +29,7 @@ export const LoginForm = () =>{
             localStorage.setItem(REFRESH_TOKEN,user.data.refresh_token)
             localStorage.setItem(EMAIL, email);
             userContext.triggerModifier()
+            navigate("/")
             toast.info("done")
         } catch (error: any) {
             console.log(error)
