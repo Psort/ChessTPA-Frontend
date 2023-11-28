@@ -53,12 +53,13 @@ export const ChessSquare = (props: ChessSquareProps) => {
     }, [gameContext.colorTurn]);
 
     const safeGameStatus  = useCallback(async (board:string,gameStatus:string,startCoordinate:string,moveCoordinate:string) => {
+        const player = gameContext.game?.players.find(player => player.username === userContext.currentUser?.username)??null
         try {
             await GameApi.safeGameStatus({
                gameId:gameContext.game?.id,
                 boardState:board,
                 move:{
-                    player:userContext.currentUser,
+                    player:player,
                     coordinates: [startCoordinate,moveCoordinate]
                 },
                 gameStatus:gameStatus
@@ -88,9 +89,8 @@ export const ChessSquare = (props: ChessSquareProps) => {
             if (type == PieceType.KING && Math.abs(actualY - y) == 2){
                 const emptyY = actualY > y ? 1 : 8;
                 const RookY = actualY > y ? 4 : 6;
-                changePiecePosition(clonedBoard,color,PieceType.ROOK, x, emptyY, x, RookY);
+                changePiecePosition(clonedBoard,color,PieceType.ROOK, actualX, emptyY, x, RookY);
             }
-
             gameContext.piecesModifier(clonedBoard);
 
             if (gameContext.currentPiece.type === PieceType.PAWN && gameContext.promoteX === x) {

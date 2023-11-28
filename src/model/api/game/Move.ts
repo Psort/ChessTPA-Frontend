@@ -1,6 +1,6 @@
-import {User} from "../../User";
+import {Player} from "../../game/Player";
 
 export type Move = {
-    player: User|null
+    player: Player|null
     coordinates:string[]
 }
