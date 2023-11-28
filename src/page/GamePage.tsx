@@ -1,10 +1,10 @@
-import {Section} from "../../App.styles";
+import {Section} from "../App.styles";
 import React, {useCallback, useContext, useEffect} from "react";
-import {Board} from "../../components/game/Board";
-import {GameApi} from "../../api/GameApi";
-import {GameContext} from "../../context/GameContext";
+import {Board} from "../components/game/Board";
+import {GameApi} from "../api/GameApi";
+import {GameContext} from "../context/GameContext";
 import {useParams} from "react-router-dom";
-import {boardStateToBoard} from "../../utils/GameContextUtils";
+import {boardStateToBoard} from "../utils/GameContextUtils";
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
 

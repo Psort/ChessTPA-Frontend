@@ -1,10 +1,10 @@
-import {Button, Section} from "../../App.styles";
+import {Button, Section} from "../App.styles";
 import React, {useCallback, useContext, useState} from "react";
-import {GameContext} from "../../context/GameContext";
-import {QueueApi} from "../../api/QueueApi";
+import {GameContext} from "../context/GameContext";
+import {QueueApi} from "../api/QueueApi";
 import {useNavigate} from "react-router-dom";
-import {UserContext} from "../../context/UserContext";
-import {ColorType} from "../../model/game/ColorType";
+import {UserContext} from "../context/UserContext";
+import {ColorType} from "../model/game/ColorType";
 
 export const HomePage = () => {
     const userContext = useContext(UserContext)
@@ -17,7 +17,7 @@ export const HomePage = () => {
             if(userContext.currentUser) {
                 const response = await QueueApi.join(userContext.currentUser?.username)
                 gameContext.gameModifier({id: response.data, history: [], players: [],actualColor:ColorType.WHITE})
-                navigate(`/game/online/${response.data}`)
+                navigate(`/play/online/${response.data}`)
                 setLoading(false)
             }
         } catch (error: any) {
