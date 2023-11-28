@@ -18,7 +18,7 @@ export const ListGamePage = () => {
     const getGames = useCallback(async () => {
         try {
             if(userContext.currentUser) {
-                const response = await GameApi.getAllGames(userContext.currentUser?.username)
+                const response = await GameApi.getAllGamesForUser(userContext.currentUser?.username)
                 console.log(response.data)
                 // gameContext.gameModifier({id: response.data, history: [], players: [],actualColor:ColorType.WHITE})
                 // console.log(response.data)
