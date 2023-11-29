@@ -20,7 +20,19 @@ export const Section = styled.div`
   }
 `
 export const Button = styled.button`
-    width: 10rem;
+    width: 15rem;
     height: 10rem;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: var(--color-primary);
+    border-radius: 1rem;
+    box-shadow: 0 0 2rem var(--color-primary);
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    font-size: 1rem;
 
+  &:hover {
+    background-color: var(--color-primary);
+    color: #161616;
+  }
 `
