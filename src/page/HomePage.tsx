@@ -26,7 +26,7 @@ export const HomePage = () => {
     }, [userContext.currentUser]);
     return (
         <Section>
-            {!loading ? <Button onClick={searchGame}>Play</Button> :
+            {!loading ? <Button onClick={searchGame}>PLAY ONLINE</Button> :
                 <div>wait</div>}
         </Section>
     )
