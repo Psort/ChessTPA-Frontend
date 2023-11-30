@@ -1,43 +1,43 @@
 import {Section} from "../App.styles";
-import React, {useCallback, useContext, useEffect} from "react";
-import {Board} from "../components/game/Board";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 import {GameApi} from "../api/GameApi";
-import {GameContext} from "../context/GameContext";
-import {useParams} from "react-router-dom";
-import {boardStateToBoard} from "../utils/GameContextUtils";
-import SockJS from "sockjs-client";
-import {Stomp} from "@stomp/stompjs";
 import {UserContext} from "../context/UserContext";
-import {QueueApi} from "../api/QueueApi";
 import {ColorType} from "../model/game/ColorType";
+import {ChessSquare} from "../components/game/ChessSquare";
+import {Piece} from "../components/piece/Piece";
+import {Game} from "../model/game/Game";
+import {useNavigate} from "react-router-dom";
+
 
 export const ListGamePage = () => {
-    // const { gameId } = useParams();
     const userContext = useContext(UserContext)
-
+    const navigate = useNavigate();
+    const [games,setGames] = useState<Game[]>();
     const getGames = useCallback(async () => {
         try {
             if(userContext.currentUser) {
                 const response = await GameApi.getAllGamesForUser(userContext.currentUser?.username)
-                console.log(response.data)
-                // gameContext.gameModifier({id: response.data, history: [], players: [],actualColor:ColorType.WHITE})
-                // console.log(response.data)
-                // navigate(`/play/online/${response.data}`)
-                // setLoading(false)
+                setGames(response.data)
             }
         } catch (error: any) {
 
         }
     }, [userContext.currentUser]);
 
-
+    let buttonsGames = games?.flatMap((game, index) => {
+        return (
+            <button onClick={()=>navigate(`/play/online/${game.id}`)} key={game.id} >
+                {game.id}
+            </button>
+        );
+    });
 
     useEffect(() => {
         getGames()
     }, [userContext.currentUser]);
     return(
         <Section>
-            {userContext.currentUser?.username}
+            {buttonsGames}
         </Section>
     )
 }
