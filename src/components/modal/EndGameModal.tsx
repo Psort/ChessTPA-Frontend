@@ -10,7 +10,7 @@ interface EndGameModalProps {
 
 export const EndGameModal: React.FC<EndGameModalProps> = ({ isOpen, onClose }) => {
     const gameContext = useContext(GameContext)
-    const playerColor = gameContext.colorTurn
+    const playerColor = gameContext.lastMove?.player?.color
 
     return (
         <ModalWrapper isOpen={isOpen}>
