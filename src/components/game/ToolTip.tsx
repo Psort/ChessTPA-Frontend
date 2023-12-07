@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import {GameContext} from "../../context/GameContext";
 import {Tooltip} from "react-tooltip";
 import {ColorType} from "../../model/game/ColorType";
-import {ChangeFigureButton, IMG} from "./Board.styles";
+import {ChangeFigureButton, TooltipImg} from "./Board.styles";
 import {PieceType} from "../../model/pieces/PieceType";
 import {PieceModel} from "../../model/pieces/PieceModel";
 
@@ -53,10 +53,10 @@ export const ToolTip = (props: ToolTipProps) => {
     };
     return(
         <Tooltip id="my-tooltip" isOpen={props.showTooltip} place={determineTooltipPlacement()} style={determineTooltipStyle()}  clickable >
-            <ChangeFigureButton onClick={changeToBishop}><IMG src={require("../../resources/Img/Pieces/B"+gameContext.getCurrentUserColor().toLowerCase()+".png")} playerColor={props.playerColor}/></ChangeFigureButton>
-            <ChangeFigureButton onClick={changeToKnight}><IMG src={require("../../resources/Img/Pieces/N"+gameContext.getCurrentUserColor().toLowerCase()+".png")} playerColor={props.playerColor}/></ChangeFigureButton>
-            <ChangeFigureButton onClick={changeToQueen}><IMG src={require("../../resources/Img/Pieces/Q"+gameContext.getCurrentUserColor().toLowerCase()+".png")} playerColor={props.playerColor}/></ChangeFigureButton>
-            <ChangeFigureButton onClick={changeToRook}><IMG src={require("../../resources/Img/Pieces/R"+gameContext.getCurrentUserColor().toLowerCase()+".png")} playerColor={props.playerColor}/></ChangeFigureButton>
+            <ChangeFigureButton onClick={changeToBishop}><TooltipImg src={require("../../resources/Img/Pieces/B"+gameContext.getCurrentUserColor().toLowerCase()+".png")} playerColor={props.playerColor}/></ChangeFigureButton>
+            <ChangeFigureButton onClick={changeToKnight}><TooltipImg src={require("../../resources/Img/Pieces/N"+gameContext.getCurrentUserColor().toLowerCase()+".png")} playerColor={props.playerColor}/></ChangeFigureButton>
+            <ChangeFigureButton onClick={changeToQueen}><TooltipImg src={require("../../resources/Img/Pieces/Q"+gameContext.getCurrentUserColor().toLowerCase()+".png")} playerColor={props.playerColor}/></ChangeFigureButton>
+            <ChangeFigureButton onClick={changeToRook}><TooltipImg src={require("../../resources/Img/Pieces/R"+gameContext.getCurrentUserColor().toLowerCase()+".png")} playerColor={props.playerColor}/></ChangeFigureButton>
         </Tooltip>
     )
 }

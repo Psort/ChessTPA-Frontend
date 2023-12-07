@@ -1,10 +1,7 @@
-import {Section} from "../App.styles";
+import {Button, Section} from "../App.styles";
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import {GameApi} from "../api/GameApi";
 import {UserContext} from "../context/UserContext";
-import {ColorType} from "../model/game/ColorType";
-import {ChessSquare} from "../components/game/ChessSquare";
-import {Piece} from "../components/piece/Piece";
 import {Game} from "../model/game/Game";
 import {useNavigate} from "react-router-dom";
 
@@ -25,10 +22,12 @@ export const ListGamePage = () => {
     }, [userContext.currentUser]);
 
     let buttonsGames = games?.flatMap((game, index) => {
-        return (
-            <button onClick={()=>navigate(`/play/online/${game.id}`)} key={game.id} >
-                {game.id}
-            </button>
+        return (<Section style={{flexDirection:"column",gap:"1rem"}}>
+                    <h1>atual games</h1>
+                    <Button onClick={()=>navigate(`/play/online/${game.id}`)} key={game.id} >
+                        {game.id}
+                    </Button>
+                </Section>
         );
     });
 
