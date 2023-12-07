@@ -14,7 +14,7 @@ export const BoardContainer = styled.div<{playerColor:string ;}>`
  `
 export const StyledChessSquare = styled.div<{ x: number; y: number; color: string;playerColor:ColorType ;isPossibleMove:boolean}>`
  aspect-ratio: 1;
- width: 10vh;
+ width: 3rem;
  grid-column: ${(props) => props.y};
  grid-row: ${(props) => props.x};
  background:${(props) => props.isPossibleMove ? "red" :props.color};

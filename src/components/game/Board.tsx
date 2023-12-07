@@ -1,5 +1,5 @@
 import {BoardContainer} from "./Board.styles";
-import React, {useCallback, useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState} from "react";
 import {Piece} from "./Piece";
 import {ChessSquare} from "./ChessSquare";
 import {GameContext} from "../../context/GameContext";
@@ -7,9 +7,7 @@ import {UserContext} from "../../context/UserContext";
 import {ColorType} from "../../model/game/ColorType";
 import {EndGameModal} from "../modal/EndGameModal";
 import {useNavigate} from "react-router-dom";
-import {EngineApi} from "../../api/EngineApi";
-import {convertPosition} from "../../utils/GameContextUtils";
-import {Coordinate} from "../../model/api/engine/Coordinate";
+
 
 export const Board = () => {
     const gameContext = useContext(GameContext);
