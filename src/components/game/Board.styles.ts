@@ -14,7 +14,7 @@ export const BoardContainer = styled.div<{playerColor:string ;}>`
  `
 export const StyledChessSquare = styled.div<{ x: number; y: number; color: string;playerColor:ColorType ;isPossibleMove:boolean}>`
  aspect-ratio: 1;
- width: 3rem;
+ width: 10vh;
  grid-column: ${(props) => props.y};
  grid-row: ${(props) => props.x};
  background:${(props) => props.isPossibleMove ? "red" :props.color};
@@ -25,8 +25,17 @@ export const ChangeFigureButton = styled.button`
  aspect-ratio: 1;
  background: transparent;
 `;
-export const IMG = styled.img<{playerColor:ColorType}>`
+export const TooltipImg = styled.img<{playerColor:ColorType}>`
   width: 100%;
  height: 100%;
  transform: ${(props)=>props.playerColor===ColorType.BLACK ? "rotate(180deg)" : ""};
 `;
+
+export const StyledPiece = styled.div`
+  height: 100%;
+  aspect-ratio: 1;
+    `
+export const PieceImg = styled.img`
+  height: 100%;
+  aspect-ratio: 1;
+    `

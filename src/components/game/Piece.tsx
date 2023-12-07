@@ -1,15 +1,16 @@
-
 import React, {useCallback, useContext, useEffect, useState} from "react";
-import {Img, StyledPiece} from "./Piece.styles";
 import {PieceModel} from "../../model/pieces/PieceModel";
 import { useDrag } from "react-dnd";
 import {GameContext} from "../../context/GameContext";
 import {boardToBoardState, convertPosition,} from "../../utils/GameContextUtils";
 import {EngineApi} from "../../api/EngineApi";
+import {PieceImg, StyledPiece} from "./Board.styles";
+import {Coordinate} from "../../model/api/engine/Coordinate";
+import {UserContext} from "../../context/UserContext";
 
 export const Piece = (piece:PieceModel) =>{
     const gameContext = useContext(GameContext)
-    const[board,setBoard] = useState("")
+    const [possibleMoves,setPossibleMoves] = useState<Coordinate[]>();
     const [{ isDragging }, drag] = useDrag({
         type: piece.type!!, // Ensure piece.type is of type PieceType
         item: { type: piece.type},
@@ -18,39 +19,41 @@ export const Piece = (piece:PieceModel) =>{
         }),
         canDrag:monitor => {return !gameContext.blockAction && gameContext.getCurrentUserColor() === piece.color}
     });
-    const setPossibleMoves = useCallback(async () =>{
+    const getPossibleMoves = useCallback(async () =>{
+        console.log(gameContext.actualGameState?.boardState??"")
         try {
             const response = await EngineApi.getPossibleMoves({
-                boardState: board,
-                piecePosition: convertPosition(gameContext.currentPiece?.x, gameContext.currentPiece?.y),
+                boardState: gameContext.actualGameState?.boardState??"",
+                piecePosition:convertPosition(piece.x, piece.y),
                 castles: gameContext.actualGameState?.castleTypes??[]
             });
-            gameContext.possibleMovesModifier(response.data)
+            setPossibleMoves(response.data)
         } catch (error) {
             // console.log(error)
         }
         return true;
-    },[board,gameContext])
-    useEffect(() => {
-        if (board){
-            setPossibleMoves()
-        }
-    }, [board,gameContext.currentPiece]);
+    },[gameContext.actualGameState])
+
     useEffect(() => {
         if (isDragging) {
             gameContext.currentPieceModifier(piece)
-            setBoard(boardToBoardState(gameContext.pieces))
+            gameContext.possibleMovesModifier(possibleMoves??null)
         }
         else{
             gameContext.possibleMovesModifier(null)
         }
     }, [isDragging]);
+    useEffect(() => {
+        if(piece.color===gameContext.getCurrentUserColor()){
+            getPossibleMoves()
+        }
+    }, [gameContext.game]);
     return (
         <StyledPiece ref = {drag}
                      style={{
                          opacity: isDragging ? 0.5 : 1
                      }} >
-            <Img src={require("../../resources/Img/Pieces/"+piece.type+piece.color.toLowerCase()+".png")}/>
+            <PieceImg src={require("../../resources/Img/Pieces/"+piece.type+piece.color.toLowerCase()+".png")}/>
         </StyledPiece>
     );
 }
