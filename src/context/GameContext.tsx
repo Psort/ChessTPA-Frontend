@@ -8,6 +8,7 @@ import {GameState} from "../model/game/GameState";
 import {UserContext} from "./UserContext";
 import {ColorType} from "../model/game/ColorType";
 import {boardStateToBoard} from "../utils/GameContextUtils";
+import {Move} from "../model/api/game/Move";
 
 
 
@@ -26,13 +27,16 @@ const defaultSetting: GameContextType = {
     currentPieceModifier: (piece: PieceModel | null) => {},
     possibleMoves:null,
     possibleMovesModifier:(moves:Coordinate[]|null) => {},
-    getCurrentUserColor:()=>{return ColorType.WHITE}
+    getCurrentUserColor:()=>{return ColorType.WHITE},
+    lastMove: null,
+    lastMoveModifier: (move: Move | null) => {}
 }
 
 export const GameContext = createContext<GameContextType>(defaultSetting)
 
 export const GameContextProvider = ({ children }: React.PropsWithChildren) => {
     const userContext = useContext(UserContext)
+    const [lastMove, setLastMove] = useState<Move | null>(null)
     const [game,setGame] = useState<Game|null>(null)
     const [blockAction,setBlockAction] = useState<boolean>(false)
     const [actualGameState,setActualGameState] = useState<GameState|undefined>()
@@ -47,7 +51,9 @@ export const GameContextProvider = ({ children }: React.PropsWithChildren) => {
     const possibleMovesModifier = (possibleMoves:Coordinate[]|null) => {
         setPossibleMoves(possibleMoves);
     }
-
+    const lastMoveModifier = (move: Move | null) => {
+        setLastMove(move)
+    }
     function piecesModifier(pieces: PieceModel[][]) {
         setPieces(pieces)
     }
@@ -74,6 +80,6 @@ export const GameContextProvider = ({ children }: React.PropsWithChildren) => {
     }
 
     return (
-        <GameContext.Provider value={{game,gameModifier,getCurrentUserColor,blockAction,blockActionModifier,actualGameState,promoteX,colorTurn,colorTurnModifier,possibleMoves,possibleMovesModifier,pieces,piecesModifier,currentPiece, currentPieceModifier}}> {children} </GameContext.Provider>
+        <GameContext.Provider value={{game,gameModifier, lastMove, lastMoveModifier, getCurrentUserColor,blockAction,blockActionModifier,actualGameState,promoteX,colorTurn,colorTurnModifier,possibleMoves,possibleMovesModifier,pieces,piecesModifier,currentPiece, currentPieceModifier}}> {children} </GameContext.Provider>
     )
 }

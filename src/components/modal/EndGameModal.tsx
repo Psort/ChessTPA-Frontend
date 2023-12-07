@@ -1,7 +1,6 @@
 import React, {useContext} from 'react';
 import {CloseButton, ModalContent, ModalWrapper} from "./EndGameModal.styles";
 import {GameContext} from "../../context/GameContext";
-import {ColorType} from "../../model/game/ColorType";
 
 interface EndGameModalProps {
     isOpen: boolean;
@@ -11,7 +10,7 @@ interface EndGameModalProps {
 
 export const EndGameModal: React.FC<EndGameModalProps> = ({ isOpen, onClose }) => {
     const gameContext = useContext(GameContext)
-    const winnerColor = gameContext.colorTurn === ColorType.WHITE ?ColorType.BLACK:ColorType.WHITE
+    const playerColor = gameContext.lastMove?.player?.color
 
     return (
         <ModalWrapper isOpen={isOpen}>

@@ -7,6 +7,7 @@ import {useParams} from "react-router-dom";
 import {boardStateToBoard} from "../utils/GameContextUtils";
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
+import {AnalysisWindow} from "../components/game/AnalysisWindow";
 
 export const GamePage = () => {
     const { gameId } = useParams();
@@ -31,6 +32,7 @@ export const GamePage = () => {
                 const newMessage = JSON.parse(payload.body);
                 if(newMessage && gameId) {
                         if(newMessage.id === gameId) {
+                            gameContext.lastMoveModifier(newMessage.history[newMessage.history.length - 1].move)
                             gameContext.gameModifier(newMessage)
                         }
                 }
@@ -50,6 +52,7 @@ export const GamePage = () => {
     }, []);
     return(
         <Section>
+            <AnalysisWindow />
            <Board/>
         </Section>
     )
