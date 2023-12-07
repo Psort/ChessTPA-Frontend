@@ -13,7 +13,7 @@ export const ListGamePage = () => {
     const getGames = useCallback(async () => {
         try {
             if(userContext.currentUser) {
-                const response = await GameApi.getAllGamesForUser(userContext.currentUser?.username)
+                const response = await GameApi.getAllActualGamesForUser(userContext.currentUser?.username)
                 setGames(response.data)
             }
         } catch (error: any) {
