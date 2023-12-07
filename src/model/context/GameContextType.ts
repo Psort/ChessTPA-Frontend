@@ -4,6 +4,7 @@ import {GameResponse} from "../api/game/GameResponse";
 import {Game} from "../game/Game";
 import {GameState} from "../game/GameState";
 import {ColorType} from "../game/ColorType";
+import {Move} from "../api/game/Move";
 
 
 export type GameContextType = {
@@ -22,4 +23,6 @@ export type GameContextType = {
     possibleMoves:Coordinate[]|null
     possibleMovesModifier: (coordinates: Coordinate[] | null) => void
     getCurrentUserColor:()=> ColorType
+    lastMove: Move | null
+    lastMoveModifier: (move: Move | null) => void
 }
