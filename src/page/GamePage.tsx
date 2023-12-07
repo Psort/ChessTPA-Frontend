@@ -16,6 +16,7 @@ export const GamePage = () => {
     const getGame = useCallback(async () => {
         try {
             const response = await GameApi.getGame(gameId)
+            console.log(response.data)
             gameContext.gameModifier(response.data)
         } catch (error: any) {
             console.log(error)
@@ -32,7 +33,6 @@ export const GamePage = () => {
                 const newMessage = JSON.parse(payload.body);
                 if(newMessage && gameId) {
                         if(newMessage.id === gameId) {
-                            gameContext.lastMoveModifier(newMessage.history[newMessage.history.length - 1].move)
                             gameContext.gameModifier(newMessage)
                         }
                 }

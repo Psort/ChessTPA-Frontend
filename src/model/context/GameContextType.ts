@@ -23,6 +23,4 @@ export type GameContextType = {
     possibleMoves:Coordinate[]|null
     possibleMovesModifier: (coordinates: Coordinate[] | null) => void
     getCurrentUserColor:()=> ColorType
-    lastMove: Move | null
-    lastMoveModifier: (move: Move | null) => void
 }

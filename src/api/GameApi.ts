@@ -14,6 +14,4 @@ export class GameApi {
     static getAllActualGamesForUser = async (username:string|undefined) =>
         await authorizedApi.get<GameResponse[]>(`/game/user?username=${username}`);
 
-    static getMovesHistory = async (gameId: string | undefined) =>
-        await authorizedApi.get(`/game/moves?gameId=${gameId}`)
 }
