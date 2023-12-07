@@ -20,7 +20,6 @@ export const Piece = (piece:PieceModel) =>{
         canDrag:monitor => {return !gameContext.blockAction && gameContext.getCurrentUserColor() === piece.color}
     });
     const getPossibleMoves = useCallback(async () =>{
-        console.log(gameContext.actualGameState?.boardState??"")
         try {
             const response = await EngineApi.getPossibleMoves({
                 boardState: gameContext.actualGameState?.boardState??"",

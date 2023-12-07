@@ -46,7 +46,6 @@ export const ChessSquare = (props: ChessSquareProps) => {
                 color:gameContext.colorTurn === ColorType.WHITE ? ColorType.BLACK : ColorType.WHITE,
                 castles:gameContext.actualGameState?.castleTypes??[],
             });
-            console.log(response.data)
             return response.data
         } catch (error: any) {
             console.log(error)
