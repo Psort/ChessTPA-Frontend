@@ -46,6 +46,7 @@ export const ChessSquare = (props: ChessSquareProps) => {
                 color:gameContext.colorTurn === ColorType.WHITE ? ColorType.BLACK : ColorType.WHITE,
                 castles:gameContext.actualGameState?.castleTypes??[],
             });
+            console.log(response.data)
             return response.data
         } catch (error: any) {
             console.log(error)
@@ -93,7 +94,7 @@ export const ChessSquare = (props: ChessSquareProps) => {
                 changePiecePosition(clonedBoard,color,PieceType.ROOK, actualX, emptyY, x, RookY);
             }
             gameContext.piecesModifier(clonedBoard);
-
+            gameContext.possibleMovesModifier(null)
             if (gameContext.currentPiece.type === PieceType.PAWN && gameContext.promoteX === x) {
                 setShowTooltip(true)
                 gameContext.blockActionModifier(true)
@@ -125,7 +126,6 @@ export const ChessSquare = (props: ChessSquareProps) => {
             return !!gameContext.possibleMoves?.find(move => move.x === x && move.y+1 === y);
         }
         return false
-        // return true
     }
 
     useEffect(() => {
