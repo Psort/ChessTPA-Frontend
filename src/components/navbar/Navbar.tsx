@@ -9,15 +9,9 @@ import {GameContext} from "../../context/GameContext";
 export const Navbar = () =>{
     const navigate = useNavigate();
     const userContext = useContext(UserContext)
-    const gameContext = useContext(GameContext)
 
     const logout = () => {
-        localStorage.removeItem(EMAIL);
-        localStorage.removeItem(ACCESS_TOKEN);
-        localStorage.removeItem(REFRESH_TOKEN);
-        userContext.userModifier(null);
-        gameContext.gameModifier(null)
-        navigate("/")
+       userContext.logout()
     }
     return(
         <NavContainer>

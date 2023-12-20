@@ -4,19 +4,24 @@ import {UserContextType} from "../model/context/UserContextType";
 
 import {UserApi} from "../api/UserApi";
 import {User} from "../model/User";
-import {EMAIL} from "../constants/constants";
+import {ACCESS_TOKEN, EMAIL, REFRESH_TOKEN} from "../constants/constants";
+import {useNavigate} from "react-router-dom";
+import {GameContext} from "./GameContext";
 
 const defaultSettings: UserContextType = {
     currentUser: null,
     userModifier: (user: User | null) => {},
+    logout: () => {},
     triggerModifier: () => {}
 };
 
 export const UserContext = createContext<UserContextType>(defaultSettings);
 
 export const UserContextProvider = ({ children }: React.PropsWithChildren) => {
-  const [trigger, setTrigger] = useState(false);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+    const navigate = useNavigate();
+    const gameContext = useContext(GameContext)
+    const [trigger, setTrigger] = useState(false);
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
   const userModifier = (user: User | null) => {
     setCurrentUser(user);
   };
@@ -40,8 +45,18 @@ export const UserContextProvider = ({ children }: React.PropsWithChildren) => {
         }
     }, [trigger])
 
+    function logout() {
+        localStorage.removeItem(EMAIL);
+        localStorage.removeItem(ACCESS_TOKEN);
+        localStorage.removeItem(REFRESH_TOKEN);
+        userModifier(null);
+        gameContext.gameModifier(null)
+        navigate("/")
+        console.log("siema")
+    }
+
     return (
-    <UserContext.Provider value={{ currentUser, userModifier, triggerModifier}}>
+    <UserContext.Provider value={{ logout, currentUser, userModifier, triggerModifier}}>
       {children}
     </UserContext.Provider>
   );
