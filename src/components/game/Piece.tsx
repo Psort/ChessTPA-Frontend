@@ -46,7 +46,7 @@ export const Piece = (piece:PieceModel) =>{
         if(piece.color===gameContext.getCurrentUserColor()){
             getPossibleMoves()
         }
-    }, [gameContext.game]);
+    }, [gameContext.colorTurn]);
     return (
         <StyledPiece ref = {drag}
                      style={{
