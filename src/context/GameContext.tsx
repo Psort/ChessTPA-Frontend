@@ -2,14 +2,11 @@ import React, {createContext, useContext, useEffect, useState} from "react";
 import {GameContextType} from "../model/context/GameContextType";
 import {PieceModel} from "../model/pieces/PieceModel";
 import {Coordinate} from "../model/api/engine/Coordinate";
-import {GameResponse} from "../model/api/game/GameResponse";
 import {Game} from "../model/game/Game";
 import {GameState} from "../model/game/GameState";
 import {UserContext} from "./UserContext";
 import {ColorType} from "../model/game/ColorType";
 import {boardStateToBoard} from "../utils/GameContextUtils";
-import {Move} from "../model/api/game/Move";
-
 
 
 const defaultSetting: GameContextType = {
@@ -61,9 +58,13 @@ export const GameContextProvider = ({ children }: React.PropsWithChildren) => {
 
     function gameModifier(game:Game|null) {
         setGame(game)
-        setActualGameState(game?.history.at(game?.history.length-1))
-        colorTurnModifier(game?.actualColor??ColorType.WHITE)
-        piecesModifier(boardStateToBoard(game?.history.at(game.history.length - 1)?.boardState??""))
+        setActualGameState(game !== null ? (game?.history.at(game?.history.length-1)):undefined)
+        colorTurnModifier(game !== null ? game?.actualColor??ColorType.WHITE : ColorType.WHITE)
+        piecesModifier(game !== null ? boardStateToBoard(game?.history.at(game.history.length - 1)?.boardState??"") : [])
+        if(game === null){
+            setBlockAction(false)
+            setCurrentPiece(null)
+        }
     }
 
     function blockActionModifier(blockAction:boolean) {

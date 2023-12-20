@@ -29,6 +29,7 @@ export const Board = () => {
 
     const handleCloseModal = () => {
         setOpen(false);
+        gameContext.gameModifier(null)
         navigate("/");
     };
 
