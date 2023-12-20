@@ -1,9 +1,12 @@
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import {ACCESS_TOKEN, EMAIL, REFRESH_TOKEN} from "../constants/constants";
 import axios, {InternalAxiosRequestConfig} from "axios";
 import jwt_decode from "jwt-decode";
 import {AuthApi} from "../api/AuthApi";
 import {toast} from "react-toastify";
+import {useNavigate} from "react-router-dom";
+import {GameContext} from "../context/GameContext";
+import {UserContext} from "../context/UserContext";
 
 
 export const authorizedApi = axios.create();
@@ -13,6 +16,9 @@ export function withAxiosIntercepted<T extends JSX.IntrinsicAttributes>(
 ) {
 
   return function AxiosIntercepted(props: T) {
+    const userContext = useContext(UserContext)
+    const navigate = useNavigate();
+    const gameContext = useContext(GameContext)
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
     const refreshToken = useCallback(async () => {
@@ -24,7 +30,12 @@ export function withAxiosIntercepted<T extends JSX.IntrinsicAttributes>(
         localStorage.setItem(ACCESS_TOKEN,response.data.access_token)
         localStorage.setItem(REFRESH_TOKEN,response.data.refresh_token)
       } catch (error: any) {
-        console.log(error)
+        localStorage.removeItem(EMAIL);
+        localStorage.removeItem(ACCESS_TOKEN);
+        localStorage.removeItem(REFRESH_TOKEN);
+        userContext.userModifier(null);
+        gameContext.gameModifier(null)
+        navigate("/")
       }
     }, [localStorage.getItem(REFRESH_TOKEN)]);
     useEffect(() => {
