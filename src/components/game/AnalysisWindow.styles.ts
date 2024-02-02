@@ -3,8 +3,8 @@ import styled from 'styled-components';
 export const AnalysisWindowContainer = styled.div`
   height: 40rem;
   width: 20rem;
-  position: absolute;
-  margin-right: 80rem;
+  //position: absolute;
+  //margin-right: 80rem;
   border-radius: 1rem;
   box-shadow: 0 0 2rem var(--color-primary);
   display: grid;

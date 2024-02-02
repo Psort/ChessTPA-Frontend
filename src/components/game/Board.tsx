@@ -59,7 +59,7 @@ export const Board = () => {
         <BoardContainer  playerColor={playerColor??""}>
             <>{spots}</>
         </BoardContainer>
-            <EndGameModal isOpen={open} onClose={handleCloseModal} />
+            {/*<EndGameModal isOpen={open} onClose={handleCloseModal} />*/}
         </>
     )
 }

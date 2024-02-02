@@ -19,6 +19,41 @@ export const Section = styled.div`
     height: 90vh;
   }
 `
+export const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction:row;
+  @media(max-width: 960px){
+    display: flex;
+    flex-direction: column-reverse;
+  }
+`
+export const Left = styled.div`
+  width: 45%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media(max-width: 960px){
+    width: 100%;
+    height: 40vh;
+  }
+  
+`
+
+export const Right = styled.div`
+  width: 45%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media(max-width: 960px){
+    margin-top: 20%;
+    width: 100vw;
+    height: 40vh;
+    padding: 0;
+  }
+`
 export const Button = styled.button`
     width: 15rem;
     height: 10rem;

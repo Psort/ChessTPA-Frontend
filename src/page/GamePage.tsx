@@ -1,4 +1,4 @@
-import {Section} from "../App.styles";
+import {Container, Left, Right, Section} from "../App.styles";
 import React, {useCallback, useContext, useEffect} from "react";
 import {Board} from "../components/game/Board";
 import {GameApi} from "../api/GameApi";
@@ -51,8 +51,10 @@ export const GamePage = () => {
     }, []);
     return(
         <Section>
-            <AnalysisWindow />
-           <Board/>
+            <Container>
+                <Left><AnalysisWindow /></Left>
+                <Right> <Board /></Right>
+            </Container>
         </Section>
     )
 }
