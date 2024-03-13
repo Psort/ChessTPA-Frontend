@@ -19,18 +19,19 @@ export const SignupForm = () => {
     const [password,setPassword] = useState("");
     const submitSignup = useCallback(async () => {
         try {
-            const user = await AuthApi.signIn({
+            const response = await AuthApi.signIn({
                 username: username,
                 email: email,
                 password: password,
             });
+            console.log(response.data)
+            navigate("/login")
             toast.info("done")
         } catch (error: any) {
-            let errorMessage;
-            console.log(errorMessage)
+            toast.error("Error during register, please try again in few moments.")
+            console.log(error.response)
         }
 
-        navigate("/login")
     }, [username,email,password]);
     return(
         <LoginContainer>
