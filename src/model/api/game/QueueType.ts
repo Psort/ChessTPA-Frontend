@@ -1,0 +1,8 @@
+export enum QueueType {
+    ONEMINQUEUE,
+    THREEMINQUEUE ,
+    FIVEMINQUEUE ,
+    TENMINQUEUE ,
+    UNLIMITEDQUEUE ,
+}
+

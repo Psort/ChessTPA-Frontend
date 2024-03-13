@@ -1,5 +1,7 @@
+import {ColorType} from "../../game/ColorType";
+
 export type MovesRequest = {
     boardState:string
-    piecePosition:string
+    playerColor:ColorType
     castles: string[]
 }

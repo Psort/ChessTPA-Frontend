@@ -1,6 +1,8 @@
 import {PieceModel} from "../model/pieces/PieceModel";
 import {getPieTypeFromSymbol} from "../model/pieces/PieceType";
 import {ColorType} from "../model/game/ColorType";
+import {color} from "three/examples/jsm/nodes/shadernode/ShaderNodeBaseElements";
+import {type} from "os";
 
 export function boardToBoardState(board: PieceModel[][]): string {
     const boardStateRows: string[] = [];
@@ -60,7 +62,7 @@ export function boardStateToBoard(boardState:string) {
                 const emptySquares = parseInt(char, 10);
                 for (let k = 0; k < emptySquares; k++) {
                     const y = row.length +1; // y coordinate starts from 1
-                    row.push({ x: x, y: y, color: ColorType.WHITE, type: null }); // or null, depending on your use case
+                    row.push({ x: x, y: y, color: ColorType.WHITE, type: null, possibleMoves: []}); // or null, depending on your use case
                 }
 
             } else {
@@ -68,7 +70,7 @@ export function boardStateToBoard(boardState:string) {
                 const color = piece === piece.toUpperCase() ? ColorType.WHITE : ColorType.BLACK
                 const type = getPieTypeFromSymbol(piece)as null;
                 const y = row.length+1 ; // y coordinate starts from 1
-                row.push({ x, y, color, type });
+                row.push({possibleMoves: [], x, y, color, type });
             }
             j++;
         }

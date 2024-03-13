@@ -22,8 +22,6 @@ const defaultSetting: GameContextType = {
     piecesModifier: (pieces: PieceModel[][]) => {},
     currentPiece: null,
     currentPieceModifier: (piece: PieceModel | null) => {},
-    possibleMoves:null,
-    possibleMovesModifier:(moves:Coordinate[]|null) => {},
     getCurrentUserColor:()=>{return ColorType.WHITE},
 }
 
@@ -38,12 +36,8 @@ export const GameContextProvider = ({ children }: React.PropsWithChildren) => {
     const [colorTurn,setColorTurn] = useState(ColorType.WHITE)
     const [pieces ,setPieces] = useState<PieceModel[][]>([])
     const [currentPiece, setCurrentPiece] = useState<PieceModel | null>(null);
-    const [possibleMoves,setPossibleMoves] = useState<Coordinate[]|null>(null)
     const currentPieceModifier = (piece:PieceModel | null) => {
         setCurrentPiece(piece);
-    }
-    const possibleMovesModifier = (possibleMoves:Coordinate[]|null) => {
-        setPossibleMoves(possibleMoves);
     }
     function piecesModifier(pieces: PieceModel[][]) {
         setPieces(pieces)
@@ -75,6 +69,6 @@ export const GameContextProvider = ({ children }: React.PropsWithChildren) => {
     }
 
     return (
-        <GameContext.Provider value={{game,gameModifier, getCurrentUserColor,blockAction,blockActionModifier,actualGameState,promoteX,colorTurn,colorTurnModifier,possibleMoves,possibleMovesModifier,pieces,piecesModifier,currentPiece, currentPieceModifier}}> {children} </GameContext.Provider>
+        <GameContext.Provider value={{game,gameModifier, getCurrentUserColor,blockAction,blockActionModifier,actualGameState,promoteX,colorTurn,colorTurnModifier,pieces,piecesModifier,currentPiece, currentPieceModifier}}> {children} </GameContext.Provider>
     )
 }

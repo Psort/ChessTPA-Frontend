@@ -93,7 +93,6 @@ export const ChessSquare = (props: ChessSquareProps) => {
                 changePiecePosition(clonedBoard,color,PieceType.ROOK, actualX, emptyY, x, RookY);
             }
             gameContext.piecesModifier(clonedBoard);
-            gameContext.possibleMovesModifier(null)
             if (gameContext.currentPiece.type === PieceType.PAWN && gameContext.promoteX === x) {
                 setShowTooltip(true)
                 gameContext.blockActionModifier(true)
@@ -121,16 +120,16 @@ export const ChessSquare = (props: ChessSquareProps) => {
         if (gameContext.currentPiece?.color !== gameContext.colorTurn){
             return false
         }
-        if(gameContext.possibleMoves){
-            return !!gameContext.possibleMoves?.find(move => move.x === x && move.y+1 === y);
+        if(gameContext.currentPiece.possibleMoves){
+            return !!gameContext.currentPiece.possibleMoves?.find(move => move.x+1 === x && move.y+1 === y);
         }
         return false
     }
 
     useEffect(() => {
-        const hasPossibleMoves= gameContext.possibleMoves?!!gameContext.possibleMoves?.find(move => move.x === props.x && move.y+1 === props.y):false
+        const hasPossibleMoves= gameContext.currentPiece?.possibleMoves?!!gameContext.currentPiece.possibleMoves?.find(move => move.x+1 === props.x && move.y+1 === props.y):false
         setIsPossibleMove(hasPossibleMoves);
-    }, [gameContext.possibleMoves,props.x,props.y]);
+    }, [gameContext.currentPiece?.possibleMoves,props.x,props.y]);
 
     return (
         <div ref={drop}>

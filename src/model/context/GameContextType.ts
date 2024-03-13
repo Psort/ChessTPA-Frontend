@@ -20,7 +20,5 @@ export type GameContextType = {
     piecesModifier: (pieces: PieceModel[][]) => void
     currentPiece: PieceModel | null
     currentPieceModifier: (piece: PieceModel | null) => void
-    possibleMoves:Coordinate[]|null
-    possibleMovesModifier: (coordinates: Coordinate[] | null) => void
     getCurrentUserColor:()=> ColorType
 }

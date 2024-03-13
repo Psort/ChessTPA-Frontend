@@ -5,6 +5,7 @@ import {QueueApi} from "../api/QueueApi";
 import {useNavigate} from "react-router-dom";
 import {UserContext} from "../context/UserContext";
 import {ColorType} from "../model/game/ColorType";
+import {QueueType} from "../model/api/game/QueueType";
 
 export const HomePage = () => {
     const userContext = useContext(UserContext)
@@ -15,7 +16,11 @@ export const HomePage = () => {
         try {
             setLoading(true)
             if(userContext.currentUser) {
-                const response = await QueueApi.join(userContext.currentUser?.username)
+                const response = await QueueApi.join({
+                    username :userContext.currentUser?.username,
+                    eloRating: 40,
+                    queueType:QueueType.FIVEMINQUEUE
+                })
                 gameContext.gameModifier({id: response.data, history: [], players: [],actualColor:ColorType.WHITE})
                 setLoading(false)
                 navigate(`/play/online/${response.data}`)

@@ -1,7 +1,8 @@
 import {authorizedApi} from "../hooks/withAxiosIntercepted";
+import {QueueRequest} from "../model/api/game/QueueRequest";
 
 
 export class QueueApi {
-    static join = async (username:string) =>
-        await authorizedApi.post<string>(`queue/join?username=${username}`);
+    static join = async (request:QueueRequest) =>
+        await authorizedApi.post<string>(`queue/join`,request);
 }
