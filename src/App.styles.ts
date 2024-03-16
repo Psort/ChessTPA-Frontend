@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {Accordion, AccordionDetails, AccordionSummary, Typography} from "@mui/material";
 
 export const AppContainer = styled.div`
     height: 100vh;
@@ -38,9 +39,7 @@ export const Left = styled.div`
     width: 100%;
     height: 40vh;
   }
-  
 `
-
 export const Right = styled.div`
   width: 45%;
   height: 100vh;
@@ -70,4 +69,69 @@ export const Button = styled.button`
     background-color: var(--color-primary);
     color: #161616;
   }
+`
+
+export const PlayButton = styled(Button)`
+    width: 20rem;
+    height: 5rem;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: var(--color-primary);
+    border-radius: 1rem;
+    box-shadow: 0 0 2rem var(--color-primary);
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    font-size: 1rem;
+
+  &:hover {
+    background-color: var(--color-primary);
+    color: #161616;
+  }
+`
+export const PlayAccordion = styled(Accordion)`
+  background-color: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  .MuiAccordionSummary-content {
+    width: 100%;
+    background-color: var(--color-bg) !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+  .MuiAccordionDetails-root {
+    background-color: var(--color-bg) !important;
+  }
+`;
+export const PlayAccordionSummary = styled(AccordionSummary)`
+  width: 100%;
+  background-color: var(--color-bg) !important;
+  
+`;
+
+export const PlayTypography = styled(Typography)`
+  color: var(--color-primary);
+`;
+
+export const PlayAccordionDetails = styled(AccordionDetails)`
+  background-color: var(--color-bg) !important;
+`;
+
+export const SpinnerUpperDiv = styled.div`
+  text-align: center;
+`;
+
+export const SpinnerLowerDiv = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+export const MatchmakingText = styled.h2`
+    color: var(--color-primary);
 `

@@ -47,8 +47,8 @@ export const Board = () => {
                 castles: gameContext.actualGameState?.castleTypes??[]
             });
             setPossibleMoves(response.data)
-        } catch (error) {
-            // console.log(error)
+        } catch (error: any) {
+            console.log(error.response)
         }
         return true;
     },[gameContext.actualGameState,gameContext.colorTurn])

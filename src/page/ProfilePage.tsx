@@ -7,7 +7,14 @@ export const ProfilePage = () => {
     const userContext = useContext(UserContext)
     return(
         <Section>
-            {/*{userContext.currentUser?.username}*/}
+            <div>
+                <div>
+                    <strong>Username:</strong> {userContext.currentUser?.username}
+                </div>
+                <div>
+                    <strong>Elo Rating:</strong> {userContext.currentUser?.eloRating}
+                </div>
+            </div>
         </Section>
     )
 }
