@@ -16,11 +16,11 @@ export const Navbar = () =>{
     return(
         <NavContainer>
             <Logo src={tpatest}/>
-            <RegisterButton onClick={()=>navigate("/")}>
-                Play
-            </RegisterButton>
             {localStorage.getItem(EMAIL) ? (
                 <>
+                    <RegisterButton onClick={()=>navigate("/")}>
+                        Play
+                    </RegisterButton>
                     <RegisterButton onClick={() => navigate("/profile")}>
                         {userContext.currentUser?.username}
                     </RegisterButton>
