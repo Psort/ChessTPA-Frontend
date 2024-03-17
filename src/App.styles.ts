@@ -59,7 +59,7 @@ export const Button = styled.button`
     background-color: rgba(0, 0, 0, 0.7);
     color: var(--color-primary);
     border-radius: 1rem;
-    box-shadow: 0 0 2rem var(--color-primary);
+  box-shadow: 0 0 0.25rem var(--color-primary);
     padding: 2rem;
     text-align: center;
     position: relative;
@@ -74,10 +74,9 @@ export const Button = styled.button`
 export const PlayButton = styled(Button)`
     width: 20rem;
     height: 5rem;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: var(--background-color);
     color: var(--color-primary);
     border-radius: 1rem;
-    box-shadow: 0 0 2rem var(--color-primary);
     padding: 2rem;
     text-align: center;
     position: relative;
@@ -110,6 +109,14 @@ export const PlayAccordion = styled(Accordion)`
   }
 `;
 export const PlayAccordionSummary = styled(AccordionSummary)`
+  box-shadow:
+            0 -0.5rem 1rem rgba(238, 38, 229, 0.2)
+            //0 -1rem 2rem rgba(238, 38, 229, 0.1),
+            //0 -2rem 4rem rgba(238, 38, 229, 0.2),
+            //0 -4rem 8rem rgba(238, 38, 229, 0.1),
+            //0 -8rem 16rem rgba(238, 38, 229, 0.1),
+            0 -16rem 32rem rgba(238, 38, 229, 0.2); !important;
+  
   width: 100%;
   background-color: var(--color-bg) !important;
   

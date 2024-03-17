@@ -4,7 +4,7 @@ import {LoginButton, Logo, NavContainer, RegisterButton} from "./Navbar.styles";
 import {useNavigate} from "react-router-dom";
 import {ACCESS_TOKEN, EMAIL, REFRESH_TOKEN} from "../../constants/constants";
 import {UserContext} from "../../context/UserContext";
-import {GameContext} from "../../context/GameContext";
+import tpatest from "../../resources/Img/LOGOTPA2.jpg"
 
 export const Navbar = () =>{
     const navigate = useNavigate();
@@ -15,7 +15,7 @@ export const Navbar = () =>{
     }
     return(
         <NavContainer>
-            <Logo/>
+            <Logo src={tpatest}/>
             <RegisterButton onClick={()=>navigate("/")}>
                 Play
             </RegisterButton>
