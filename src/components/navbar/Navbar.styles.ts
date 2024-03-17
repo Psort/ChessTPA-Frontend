@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 
 export const NavContainer = styled.div`
     width: 10vw;
@@ -49,7 +49,6 @@ export const RegisterButton = styled.button`
     width: 75%;
   }
 `;
-
 export const LoginButton = styled.button`
   display: block;
   width: 80%;

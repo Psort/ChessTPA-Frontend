@@ -70,6 +70,9 @@ export const Button = styled.button`
     color: #161616;
   }
 `
+export const AsciiContainer = styled.div`
+    white-space: pre;
+`;
 
 export const PlayButton = styled(Button)`
     width: 20rem;

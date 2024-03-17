@@ -1,4 +1,5 @@
 import {
+    AsciiContainer,
     MatchmakingText,
     PlayAccordion,
     PlayAccordionDetails,
@@ -15,6 +16,7 @@ import {UserContext} from "../context/UserContext";
 import {ColorType} from "../model/game/ColorType";
 import {QueueType} from "../model/api/game/QueueType";
 import {CircularProgress, Stack} from "@mui/material";
+import {EMAIL} from "../constants/constants";
 
 export const HomePage = () => {
     const userContext = useContext(UserContext)
@@ -40,32 +42,37 @@ export const HomePage = () => {
         }
     }, [userContext.currentUser]);
 
+
     return (
         <Section>
-            {loading ? (
-                <SpinnerUpperDiv>
-                    <div>
-                        <MatchmakingText>Looking for opponent...</MatchmakingText>
-                    </div>
-                    <SpinnerLowerDiv>
-                        <CircularProgress />
-                    </SpinnerLowerDiv>
-                </SpinnerUpperDiv>
+            {localStorage.getItem(EMAIL) ? (
+                loading ? (
+                    <SpinnerUpperDiv>
+                        <div>
+                            <MatchmakingText>Looking for opponent...</MatchmakingText>
+                        </div>
+                        <SpinnerLowerDiv>
+                            <CircularProgress />
+                        </SpinnerLowerDiv>
+                    </SpinnerUpperDiv>
+                ) : (
+                    <PlayAccordion>
+                        <PlayAccordionSummary>
+                            <PlayTypography><h2>Select game mode</h2></PlayTypography>
+                        </PlayAccordionSummary>
+                        <PlayAccordionDetails>
+                            <Stack spacing={1}>
+                                <PlayButton onClick={() => { searchGame(QueueType.ONEMINQUEUE) }}>ONE MINUTE GAME</PlayButton>
+                                <PlayButton onClick={() => { searchGame(QueueType.THREEMINQUEUE) }}>THREE MINUTE GAME</PlayButton>
+                                <PlayButton onClick={() => { searchGame(QueueType.FIVEMINQUEUE) }}>FIVE MINUTE GAME</PlayButton>
+                                <PlayButton onClick={() => { searchGame(QueueType.TENMINQUEUE) }}>TEN MINUTE GAME</PlayButton>
+                                <PlayButton onClick={() => { searchGame(QueueType.UNLIMITEDQUEUE) }}>REGULAR GAME</PlayButton>
+                            </Stack>
+                        </PlayAccordionDetails>
+                    </PlayAccordion>
+                )
             ) : (
-                <PlayAccordion>
-                    <PlayAccordionSummary>
-                        <PlayTypography><h2>Select game mode</h2></PlayTypography>
-                    </PlayAccordionSummary>
-                    <PlayAccordionDetails>
-                        <Stack spacing={1}>
-                            <PlayButton onClick={() => { searchGame(QueueType.ONEMINQUEUE) }}>ONE MINUTE GAME</PlayButton>
-                            <PlayButton onClick={() => { searchGame(QueueType.THREEMINQUEUE) }}>THREE MINUTE GAME</PlayButton>
-                            <PlayButton onClick={() => { searchGame(QueueType.FIVEMINQUEUE) }}>FIVE MINUTE GAME</PlayButton>
-                            <PlayButton onClick={() => { searchGame(QueueType.TENMINQUEUE) }}>TEN MINUTE GAME</PlayButton>
-                            <PlayButton onClick={() => { searchGame(QueueType.UNLIMITEDQUEUE) }}>REGULAR GAME</PlayButton>
-                        </Stack>
-                    </PlayAccordionDetails>
-                </PlayAccordion>
+                <AsciiContainer></AsciiContainer>
             )}
         </Section>
     )
