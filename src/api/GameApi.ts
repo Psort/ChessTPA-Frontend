@@ -7,8 +7,8 @@ export class GameApi {
   static getGame = async (gameId:string|undefined) =>
       await authorizedApi.get<GameResponse>(`/game?gameId=${gameId}`);
 
-  static safeGameStatus = async (request: GameStateRequest) =>
-      await authorizedApi.patch("/game", request);
+  static safeGameState = async (request: GameStateRequest) =>
+      await authorizedApi.patch("/game/update", request);
 
 
     static getAllActualGamesForUser = async (username:string|undefined) =>

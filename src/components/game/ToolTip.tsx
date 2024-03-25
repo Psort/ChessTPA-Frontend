@@ -12,7 +12,7 @@ type ToolTipProps = {
     playerColor: ColorType,
     showTooltip:boolean,
     setShowTooltip:(showTooltip:boolean)=>void
-    safeGame:(clonedBoard:PieceModel[][],x:number,y:number)=>void
+    safeGame:(x:number,y:number)=>void
 }
 export const ToolTip = (props: ToolTipProps) => {
     const gameContext = useContext(GameContext);
@@ -49,7 +49,7 @@ export const ToolTip = (props: ToolTipProps) => {
         const clonedBoard = JSON.parse(JSON.stringify(gameContext.pieces));
         clonedBoard[props.x - 1][props.y - 1].type = type;
         gameContext.piecesModifier(clonedBoard);
-        props.safeGame(clonedBoard,props.x,props.y)
+        props.safeGame(props.x,props.y)
     };
     return(
         <Tooltip id="my-tooltip" isOpen={props.showTooltip} place={determineTooltipPlacement()} style={determineTooltipStyle()}  clickable >

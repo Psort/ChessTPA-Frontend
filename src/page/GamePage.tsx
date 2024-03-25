@@ -17,6 +17,7 @@ export const GamePage = () => {
         try {
             const response = await GameApi.getGame(gameId)
             gameContext.gameModifier(response.data)
+            console.log(response.data)
         } catch (error: any) {
             console.log(error)
         }

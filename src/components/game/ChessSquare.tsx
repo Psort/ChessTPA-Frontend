@@ -3,7 +3,6 @@ import {StyledChessSquare} from "./Board.styles";
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import {GameContext} from "../../context/GameContext";
 import {PieceType} from "../../model/pieces/PieceType";
-import {EngineApi} from "../../api/EngineApi";
 import {boardToBoardState, convertPosition} from "../../utils/GameContextUtils";
 import {GameApi} from "../../api/GameApi";
 import {UserContext} from "../../context/UserContext";
@@ -39,31 +38,17 @@ export const ChessSquare = (props: ChessSquareProps) => {
         audioElement.play();
     };
 
-    const getGameStatus  = useCallback(async (board:string) => {
-        try {
-            const response = await EngineApi.getGameStatus({
-                boardState:board,
-                color:gameContext.colorTurn === ColorType.WHITE ? ColorType.BLACK : ColorType.WHITE,
-                castles:gameContext.actualGameState?.castleTypes??[],
-            });
-            return response.data
-        } catch (error: any) {
-            console.log(error)
-        }
-    }, [gameContext.colorTurn]);
 
-    const safeGameStatus  = useCallback(async (board:string,gameStatus:string,startCoordinate:string,moveCoordinate:string) => {
+    const safeGameState  = useCallback(async (startCoordinate:string,moveCoordinate:string) => {
         const player = gameContext.game?.players.find(player => player.username === userContext.currentUser?.username)??null
         try {
-            await GameApi.safeGameStatus({
+            await GameApi.safeGameState({
                gameId:gameContext.game?.id,
-                boardState:board,
                 move:{
                     player:player,
                     startingCoordinates: startCoordinate,
                     endingCoordinates:moveCoordinate
-                },
-                gameStatus:gameStatus
+                }
             });
         } catch (error: any) {
             console.log(error)
@@ -98,22 +83,20 @@ export const ChessSquare = (props: ChessSquareProps) => {
                 gameContext.blockActionModifier(true)
             }
             else {
-                safeGame(clonedBoard,x,y)
+                safeGame(x,y)
             }
         }
     };
 
-    function safeGame(clonedBoard:PieceModel[][],x:number,y:number){
+    function safeGame(x:number,y:number){
         const actualX = gameContext.currentPiece?.x
         const actualY = gameContext.currentPiece?.y
-
-        getGameStatus(boardToBoardState(clonedBoard)).then(gameStatus=>{
-            safeGameStatus(boardToBoardState(clonedBoard),gameStatus,convertPosition(actualX, actualY),convertPosition(x, y)).then(r=>{
-                if(gameContext.game?.id) {
-                    sendMessageWithGameId(gameContext.game?.id)
-                }
-            })
+        safeGameState(convertPosition(actualX, actualY),convertPosition(x, y)).then(r=>{
+            if(gameContext.game?.id) {
+                sendMessageWithGameId(gameContext.game?.id)
+            }
         })
+
     }
 
     function canMove(x: number, y: number) {
