@@ -17,7 +17,7 @@ export const GamePage = () => {
         try {
             const response = await GameApi.getGame(gameId)
             gameContext.gameModifier(response.data)
-            console.log(response.data)
+            console.log("game")
         } catch (error: any) {
             console.log(error)
         }
@@ -29,11 +29,11 @@ export const GamePage = () => {
         client.debug  = function (){}
         const connectCallback = () => {
 
-            client.subscribe(`/topic/messages/${gameId}`, (payload) => {
-                const newMessage = JSON.parse(payload.body);
-                if(newMessage && gameId) {
-                        if(newMessage.id === gameId) {
-                            gameContext.gameModifier(newMessage)
+            client.subscribe(`/topic/game/${gameId}`, (payload) => {
+                const gmae = JSON.parse(payload.body);
+                if(gmae && gameId) {
+                        if(gmae.id === gameId) {
+                            gameContext.gameModifier(gmae)
                         }
                 }
             });

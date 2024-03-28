@@ -6,7 +6,7 @@ import {PieceType} from "../../model/pieces/PieceType";
 import {boardToBoardState, convertPosition} from "../../utils/GameContextUtils";
 import {GameApi} from "../../api/GameApi";
 import {UserContext} from "../../context/UserContext";
-import {sendMessageWithGameId} from "../../message/MessageSender";
+import {sendGameWithGameId} from "../../message/MessageSender";
 import {ColorType} from "../../model/game/ColorType";
 import {ToolTip} from "./ToolTip";
 import {PieceModel} from "../../model/pieces/PieceModel";
@@ -93,7 +93,7 @@ export const ChessSquare = (props: ChessSquareProps) => {
         const actualY = gameContext.currentPiece?.y
         safeGameState(convertPosition(actualX, actualY),convertPosition(x, y)).then(r=>{
             if(gameContext.game?.id) {
-                sendMessageWithGameId(gameContext.game?.id)
+                sendGameWithGameId(gameContext.game?.id)
             }
         })
 
