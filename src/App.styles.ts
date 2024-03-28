@@ -73,7 +73,6 @@ export const Button = styled.button`
 export const AsciiContainer = styled.div`
     white-space: pre;
 `;
-
 export const PlayButton = styled(Button)`
     width: 20rem;
     height: 5rem;
@@ -142,6 +141,9 @@ export const SpinnerLowerDiv = styled.div`
   justify-content: center;
 `;
 
+export const LeaveDiv = styled.div`
+  margin-top: 3rem;
+`
 export const MatchmakingText = styled.h2`
     color: var(--color-primary);
 `

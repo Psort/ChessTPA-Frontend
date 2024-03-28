@@ -1,12 +1,14 @@
 import {
-    AsciiContainer,
+    AsciiContainer, LeaveDiv,
     MatchmakingText,
     PlayAccordion,
     PlayAccordionDetails,
     PlayAccordionSummary,
     PlayButton,
     PlayTypography,
-    Section, SpinnerLowerDiv, SpinnerUpperDiv
+    Section,
+    SpinnerLowerDiv,
+    SpinnerUpperDiv
 } from "../App.styles";
 import React, {useCallback, useContext, useState} from "react";
 import {GameContext} from "../context/GameContext";
@@ -23,18 +25,20 @@ export const HomePage = () => {
     const gameContext = useContext(GameContext)
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
+    const [selectedQueueType, setSelectedQueueType] = useState<QueueType | null>(null);
 
     const searchGame = useCallback(async (queueType: QueueType) => {
         try {
-            setLoading(true)
+            setLoading(true);
+            setSelectedQueueType(queueType);
             if(userContext.currentUser) {
                 const response = await QueueApi.join({
                     username :userContext.currentUser?.username,
                     eloRating: userContext.currentUser.eloRating,
                     queueType: queueType
                 })
-                gameContext.gameModifier({id: response.data, history: [], players: [],actualColor:ColorType.WHITE})
-                setLoading(false)
+                gameContext.gameModifier({id: response.data, history: [], players: [],actualColor:ColorType.WHITE});
+                setLoading(false);
                 navigate(`/play/online/${response.data}`)
             }
         } catch (error: any) {
@@ -42,6 +46,22 @@ export const HomePage = () => {
         }
     }, [userContext.currentUser]);
 
+    const leaveQueue = async () => {
+        try {
+            console.log(selectedQueueType)
+            if(userContext.currentUser && selectedQueueType) {
+                await QueueApi.leave({
+                    username: userContext.currentUser?.username,
+                    eloRating: userContext.currentUser.eloRating,
+                    queueType: selectedQueueType
+                })
+                setSelectedQueueType(null);
+                setLoading(false);
+            }
+        } catch (error: any) {
+            console.log(error.response)
+        }
+    }
 
     return (
         <Section>
@@ -54,6 +74,9 @@ export const HomePage = () => {
                         <SpinnerLowerDiv>
                             <CircularProgress />
                         </SpinnerLowerDiv>
+                        <LeaveDiv>
+                            <PlayButton onClick={leaveQueue}>LEAVE QUEUE</PlayButton>
+                        </LeaveDiv>
                     </SpinnerUpperDiv>
                 ) : (
                     <PlayAccordion>
