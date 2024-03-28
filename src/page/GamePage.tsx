@@ -8,6 +8,7 @@ import {boardStateToBoard} from "../utils/GameContextUtils";
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
 import {AnalysisWindow} from "../components/game/AnalysisWindow";
+import {ChatBox} from "../components/game/ChatBox";
 
 export const GamePage = () => {
     const { gameId } = useParams();
@@ -53,7 +54,10 @@ export const GamePage = () => {
     return(
         <Section>
             <Container>
-                <Left><AnalysisWindow /></Left>
+                <Left>
+                    <ChatBox/>
+                    <AnalysisWindow />
+                </Left>
                 <Right> <Board /></Right>
             </Container>
         </Section>

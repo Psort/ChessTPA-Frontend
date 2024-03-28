@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const AnalysisWindowContainer = styled.div`
-  height: 40rem;
+  height: 25rem;
   width: 20rem;
   //position: absolute;
   //margin-right: 80rem;

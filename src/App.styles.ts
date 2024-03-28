@@ -33,6 +33,7 @@ export const Left = styled.div`
   width: 45%;
   height: 100vh;
   display: flex;
+    flex-direction: column;
   justify-content: center;
   align-items: center;
   @media(max-width: 960px){

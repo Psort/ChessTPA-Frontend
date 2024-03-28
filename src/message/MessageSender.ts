@@ -11,11 +11,11 @@ export const sendGameWithGameId = (gameId: string) => {
     });
 };
 
-export const sendMessageWithGameId = (gameId: string) => {
+export const sendMessageWithGameId = (gameId: string,username:string,message: string) => {
     const client = Stomp.over(new SockJS('http://localhost:8080/stomp'));
     client.debug  = function (){}
     client.connect({}, () => {
-        client.send(`/app/messages/${gameId}`, {}, gameId);
+        client.send(`/app/messages/${gameId}`, {}, JSON.stringify({ gameId,username, message }));
         client.disconnect(() => {
         });
     });
