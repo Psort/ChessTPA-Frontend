@@ -4,39 +4,6 @@ import {ColorType} from "../model/game/ColorType";
 import {color} from "three/examples/jsm/nodes/shadernode/ShaderNodeBaseElements";
 import {type} from "os";
 
-export function boardToBoardState(board: PieceModel[][]): string {
-    const boardStateRows: string[] = [];
-
-    for (let i = 0; i < board.length; i++) {
-        let row = '';
-        let emptyCount = 0;
-
-        for (let j = 0; j < board[i].length; j++) {
-            const piece = board[i][j];
-
-            if (!piece.type) {
-                // Empty square
-                emptyCount++;
-            } else {
-                // Piece present
-                if (emptyCount > 0) {
-                    row += emptyCount.toString();
-                    emptyCount = 0;
-                }
-                const pieceSymbol = piece.color === ColorType.WHITE ? piece.type.toUpperCase() : piece.type.toLowerCase();
-                row += pieceSymbol;
-            }
-        }
-
-        if (emptyCount > 0) {
-            row += emptyCount.toString();
-        }
-
-        boardStateRows.push(row);
-    }
-
-    return boardStateRows.join('/');
-}
 
 export function convertPosition(x: number | undefined, y: number | undefined) {
     const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
@@ -53,7 +20,7 @@ export function boardStateToBoard(boardState:string) {
     for (let i = 0; i < rows.length; i++) {
         const row: PieceModel[] = [];
         let j = 0;
-        let x = i+1 ; // x coordinate starts from 1
+        let x = 8-i ;
 
         while (j < rows[i].length) {
             const char = rows[i][j];
@@ -66,7 +33,7 @@ export function boardStateToBoard(boardState:string) {
                 }
 
             } else {
-                const piece = rows[i][j];
+                const piece = char;
                 const color = piece === piece.toUpperCase() ? ColorType.WHITE : ColorType.BLACK
                 const type = getPieTypeFromSymbol(piece)as null;
                 const y = row.length+1 ; // y coordinate starts from 1

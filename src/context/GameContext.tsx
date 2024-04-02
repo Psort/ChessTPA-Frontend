@@ -43,7 +43,7 @@ export const GameContextProvider = ({ children }: React.PropsWithChildren) => {
         setPieces(pieces)
     }
     useEffect(() => {
-        setPromoteX(getCurrentUserColor() !== ColorType.WHITE ? 8 : 1)
+        setPromoteX(getCurrentUserColor() !== ColorType.WHITE ? 1 : 8)
     }, [currentPiece]);
 
     function colorTurnModifier(color:ColorType) {

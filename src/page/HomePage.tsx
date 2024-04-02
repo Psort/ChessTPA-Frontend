@@ -1,5 +1,6 @@
 import {
-    AsciiContainer, LeaveDiv,
+    AsciiContainer,
+    LeaveDiv,
     MatchmakingText,
     PlayAccordion,
     PlayAccordionDetails,
@@ -19,6 +20,7 @@ import {ColorType} from "../model/game/ColorType";
 import {QueueType} from "../model/api/game/QueueType";
 import {CircularProgress, Stack} from "@mui/material";
 import {EMAIL} from "../constants/constants";
+import {GameApi} from "../api/GameApi";
 
 export const HomePage = () => {
     const userContext = useContext(UserContext)
@@ -38,6 +40,23 @@ export const HomePage = () => {
                     queueType: queueType
                 })
                 gameContext.gameModifier({id: response.data, history: [], players: [],actualColor:ColorType.WHITE});
+                setLoading(false);
+                navigate(`/play/online/${response.data}`)
+            }
+        } catch (error: any) {
+            setLoading(false)
+        }
+    }, [userContext.currentUser]);
+
+    const startGameWithComputer = useCallback(async () => {
+        try {
+            if(userContext.currentUser) {
+                const response = await GameApi.startGameWithComputer({
+                    firstPlayerUsername :userContext.currentUser?.username,
+                    secondPlayerUsername: "COMPUTER",
+                    gameType: QueueType.COMPUTER
+                })
+                gameContext.gameModifier({id: response.data.id, history: [], players: [],actualColor:ColorType.WHITE});
                 setLoading(false);
                 navigate(`/play/online/${response.data}`)
             }
@@ -85,6 +104,7 @@ export const HomePage = () => {
                         </PlayAccordionSummary>
                         <PlayAccordionDetails>
                             <Stack spacing={1}>
+                                <PlayButton onClick={() => { startGameWithComputer() }}>COMPUTER GAME</PlayButton>
                                 <PlayButton onClick={() => { searchGame(QueueType.ONEMINQUEUE) }}>ONE MINUTE GAME</PlayButton>
                                 <PlayButton onClick={() => { searchGame(QueueType.THREEMINQUEUE) }}>THREE MINUTE GAME</PlayButton>
                                 <PlayButton onClick={() => { searchGame(QueueType.FIVEMINQUEUE) }}>FIVE MINUTE GAME</PlayButton>

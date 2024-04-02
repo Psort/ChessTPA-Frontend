@@ -3,7 +3,7 @@ import {StyledChessSquare} from "./Board.styles";
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import {GameContext} from "../../context/GameContext";
 import {PieceType} from "../../model/pieces/PieceType";
-import {boardToBoardState, convertPosition} from "../../utils/GameContextUtils";
+import {convertPosition} from "../../utils/GameContextUtils";
 import {GameApi} from "../../api/GameApi";
 import {UserContext} from "../../context/UserContext";
 import {sendGameWithGameId} from "../../message/MessageSender";
@@ -11,6 +11,7 @@ import {ColorType} from "../../model/game/ColorType";
 import {ToolTip} from "./ToolTip";
 import {PieceModel} from "../../model/pieces/PieceModel";
 import moveSound from "../../resources/sounds/moveSound.mp3"
+import {mul} from "three/examples/jsm/nodes/shadernode/ShaderNodeBaseElements";
 
 type ChessSquareProps = {
     x: number,
@@ -39,16 +40,16 @@ export const ChessSquare = (props: ChessSquareProps) => {
     };
 
 
-    const safeGameState  = useCallback(async (startCoordinate:string,moveCoordinate:string) => {
-        const player = gameContext.game?.players.find(player => player.username === userContext.currentUser?.username)??null
+    const safeGameState  = useCallback(async (startCoordinate:string,moveCoordinate:string,type: string) => {
         try {
+            console.log(type)
             await GameApi.safeGameState({
                gameId:gameContext.game?.id,
                 move:{
-                    player:player,
                     startingCoordinates: startCoordinate,
-                    endingCoordinates:moveCoordinate
-                }
+                    endingCoordinates:moveCoordinate,
+                },
+                newPawnType:type
             });
         } catch (error: any) {
             console.log(error)
@@ -56,9 +57,10 @@ export const ChessSquare = (props: ChessSquareProps) => {
     }, [userContext.currentUser,gameContext.game?.id]);
 
     function changePiecePosition(clonedBoard:PieceModel[][],color:ColorType,type:PieceType|null,actualX: number, actualY: number, x: number, y: number) {
-        clonedBoard[x - 1][y - 1].type = type
-        clonedBoard[x - 1][y - 1].color = color
-        clonedBoard[actualX - 1][actualY - 1].type = null
+        console.log(clonedBoard)
+        clonedBoard[8-x][y - 1].type = type
+        clonedBoard[8-x][y - 1].color = color
+        clonedBoard[8-actualX ][actualY - 1].type = null
     }
 
     const move = (x: number, y: number) => {
@@ -83,15 +85,15 @@ export const ChessSquare = (props: ChessSquareProps) => {
                 gameContext.blockActionModifier(true)
             }
             else {
-                safeGame(x,y)
+                safeGame(x,y,"")
             }
         }
     };
 
-    function safeGame(x:number,y:number){
+    function safeGame(x:number,y:number,type: string){
         const actualX = gameContext.currentPiece?.x
         const actualY = gameContext.currentPiece?.y
-        safeGameState(convertPosition(actualX, actualY),convertPosition(x, y)).then(r=>{
+        safeGameState(convertPosition(actualX, actualY),convertPosition(x, y),type).then(r=>{
             if(gameContext.game?.id) {
                 sendGameWithGameId(gameContext.game?.id)
             }

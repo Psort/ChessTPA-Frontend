@@ -4,7 +4,6 @@ import {Tooltip} from "react-tooltip";
 import {ColorType} from "../../model/game/ColorType";
 import {ChangeFigureButton, TooltipImg} from "./Board.styles";
 import {PieceType} from "../../model/pieces/PieceType";
-import {PieceModel} from "../../model/pieces/PieceModel";
 
 type ToolTipProps = {
     x:number,
@@ -12,7 +11,7 @@ type ToolTipProps = {
     playerColor: ColorType,
     showTooltip:boolean,
     setShowTooltip:(showTooltip:boolean)=>void
-    safeGame:(x:number,y:number)=>void
+    safeGame:(x:number,y:number,type: string)=>void
 }
 export const ToolTip = (props: ToolTipProps) => {
     const gameContext = useContext(GameContext);
@@ -25,38 +24,23 @@ export const ToolTip = (props: ToolTipProps) => {
         const rotationStyle = props.playerColor === ColorType.BLACK ? "rotate(180deg) translate(0,300%)" : "";
         return { display: "flex", flexDirection: "row", padding: "0", margin: "0", gap: "10px" ,position:"absolute",transform:rotationStyle} as React.CSSProperties;
     };
-    function changeToQueen(){
-        changePieceType(PieceType.QUEEN)
-        props.setShowTooltip(false)
-        gameContext.blockActionModifier(false)
-    }
-    function changeToBishop(){
-        changePieceType(PieceType.BISHOP)
-        props.setShowTooltip(false)
-        gameContext.blockActionModifier(false)
-    }
-    function changeToRook(){
-        changePieceType(PieceType.ROOK)
-        props.setShowTooltip(false)
-        gameContext.blockActionModifier(false)
-    }
-    function changeToKnight(){
-        changePieceType(PieceType.KNIGHT)
+    function changePawnTo(type: PieceType){
+        changePieceType(type)
         props.setShowTooltip(false)
         gameContext.blockActionModifier(false)
     }
     const changePieceType = (type: PieceType) => {
         const clonedBoard = JSON.parse(JSON.stringify(gameContext.pieces));
-        clonedBoard[props.x - 1][props.y - 1].type = type;
+        clonedBoard[8-props.x][props.y - 1].type = type;
         gameContext.piecesModifier(clonedBoard);
-        props.safeGame(props.x,props.y)
+        props.safeGame(props.x,props.y,type.toString())
     };
     return(
         <Tooltip id="my-tooltip" isOpen={props.showTooltip} place={determineTooltipPlacement()} style={determineTooltipStyle()}  clickable >
-            <ChangeFigureButton onClick={changeToBishop}><TooltipImg src={require("../../resources/Img/Pieces/B"+gameContext.getCurrentUserColor().toLowerCase()+".png")} playerColor={props.playerColor}/></ChangeFigureButton>
-            <ChangeFigureButton onClick={changeToKnight}><TooltipImg src={require("../../resources/Img/Pieces/N"+gameContext.getCurrentUserColor().toLowerCase()+".png")} playerColor={props.playerColor}/></ChangeFigureButton>
-            <ChangeFigureButton onClick={changeToQueen}><TooltipImg src={require("../../resources/Img/Pieces/Q"+gameContext.getCurrentUserColor().toLowerCase()+".png")} playerColor={props.playerColor}/></ChangeFigureButton>
-            <ChangeFigureButton onClick={changeToRook}><TooltipImg src={require("../../resources/Img/Pieces/R"+gameContext.getCurrentUserColor().toLowerCase()+".png")} playerColor={props.playerColor}/></ChangeFigureButton>
+            <ChangeFigureButton onClick={()=>changePawnTo(PieceType.BISHOP)}><TooltipImg src={require("../../resources/Img/Pieces/B"+gameContext.getCurrentUserColor().toLowerCase()+".png")} playerColor={props.playerColor}/></ChangeFigureButton>
+            <ChangeFigureButton onClick={()=>changePawnTo(PieceType.KNIGHT)}><TooltipImg src={require("../../resources/Img/Pieces/N"+gameContext.getCurrentUserColor().toLowerCase()+".png")} playerColor={props.playerColor}/></ChangeFigureButton>
+            <ChangeFigureButton onClick={()=>changePawnTo(PieceType.QUEEN)}><TooltipImg src={require("../../resources/Img/Pieces/Q"+gameContext.getCurrentUserColor().toLowerCase()+".png")} playerColor={props.playerColor}/></ChangeFigureButton>
+            <ChangeFigureButton onClick={()=>changePawnTo(PieceType.ROOK)}><TooltipImg src={require("../../resources/Img/Pieces/R"+gameContext.getCurrentUserColor().toLowerCase()+".png")} playerColor={props.playerColor}/></ChangeFigureButton>
         </Tooltip>
     )
 }

@@ -41,7 +41,6 @@ export const ChatBox = () => {
 
     const sendMessage = () => {
         const username = userContext.currentUser?.username
-        console.log(message)
         if (gameId != null && message != "" && username ) {
             sendMessageWithGameId(gameId,username, message);
             setMessage("");

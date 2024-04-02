@@ -24,7 +24,7 @@ export const Board = () => {
                     possibleMove.piecePosition.x === piece.x-1 && possibleMove.piecePosition.y === piece.y-1
                 );
                 return (
-                    <ChessSquare x={i+1} y={j+1} color={color}  key={`${i}-${j}`} playerColor={playerColor??ColorType.WHITE}>
+                    <ChessSquare x={piece.x} y={piece.y} color={color}  key={`${i}-${j}`} playerColor={playerColor??ColorType.WHITE}>
                         {piece.type  && <Piece color={piece.color} type={piece.type} x={piece.x} y={piece.y}  possibleMoves={possibleMovesForPiece?.possibleMovesForPiece}/>}
                     </ChessSquare>
                 );

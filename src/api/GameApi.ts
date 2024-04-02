@@ -1,6 +1,7 @@
 import {authorizedApi} from "../hooks/withAxiosIntercepted";
 import {GameResponse} from "../model/api/game/GameResponse";
 import {GameStateRequest} from "../model/api/game/GameStateRequest";
+import {GameComputerRequest} from "../model/api/game/GameComputerRequest";
 
 
 export class GameApi {
@@ -13,5 +14,8 @@ export class GameApi {
 
     static getAllActualGamesForUser = async (username:string|undefined) =>
         await authorizedApi.get<GameResponse[]>(`/game/user?username=${username}`);
+
+  static startGameWithComputer = async (request:GameComputerRequest) =>
+      await authorizedApi.post<GameResponse>(`/game/create`,request);
 
 }

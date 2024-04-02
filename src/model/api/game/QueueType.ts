@@ -4,5 +4,6 @@ export enum QueueType {
     FIVEMINQUEUE ,
     TENMINQUEUE ,
     UNLIMITEDQUEUE ,
+    COMPUTER ,
 }
 

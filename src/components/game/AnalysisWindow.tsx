@@ -1,8 +1,6 @@
 import {AnalysisWindowContainer} from "./AnalysisWindow.styles";
 import {GameContext} from "../../context/GameContext";
 import {useContext, useEffect, useState} from "react";
-import {UserContext} from "../../context/UserContext";
-import {ChatBox} from "./ChatBox";
 
 
 export const AnalysisWindow = () => {
